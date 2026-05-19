@@ -276,24 +276,35 @@
         .product-frame {
             max-width: 1100px;
             margin: 0 auto;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
             background: var(--bg-elevated);
             overflow: hidden;
+            position: relative;
             box-shadow:
-                0 0 0 1px rgba(255,255,255,0.02),
-                0 30px 80px -20px rgba(0,0,0,0.6),
-                0 0 120px -30px rgba(255,255,255,0.05);
+                inset 0 1px 0 rgba(255,255,255,0.06),
+                0 0 0 1px rgba(0,0,0,0.4),
+                0 40px 100px -30px rgba(0,0,0,0.85),
+                0 25px 50px -20px rgba(0,0,0,0.55),
+                0 0 140px -40px rgba(255,255,255,0.04);
         }
 
         .mac-titlebar {
             display: flex; align-items: center; gap: 14px;
-            padding: 10px 14px;
+            padding: 11px 14px;
             border-bottom: 1px solid var(--border);
-            background: rgba(255,255,255,0.02);
+            background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.015));
+            position: relative;
         }
-        .mac-traffic-lights { display: flex; gap: 6px; flex: none; }
-        .traffic-light { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.10); }
-        .mac-title { flex: 1; text-align: center; font-size: 11px; color: var(--dim); letter-spacing: 0.3px; }
+        .mac-traffic-lights { display: flex; gap: 8px; flex: none; }
+        .traffic-light {
+            width: 12px; height: 12px; border-radius: 50%;
+            box-shadow: inset 0 0 0 0.5px rgba(0,0,0,0.35);
+        }
+        .traffic-light.red    { background: #ff5f57; }
+        .traffic-light.yellow { background: #febc2e; }
+        .traffic-light.green  { background: #28c840; }
+        .mac-title { flex: 1; text-align: center; font-size: 11.5px; color: var(--muted); letter-spacing: 0.2px; font-weight: 500; }
 
         .app-topbar {
             display: flex; align-items: center; gap: 16px;
@@ -831,12 +842,12 @@
             <div class="product-frame" role="img" aria-label="AgentHub workspace preview">
                 <div class="mac-titlebar">
                     <div class="mac-traffic-lights">
-                        <div class="traffic-light"></div>
-                        <div class="traffic-light"></div>
-                        <div class="traffic-light"></div>
+                        <div class="traffic-light red"></div>
+                        <div class="traffic-light yellow"></div>
+                        <div class="traffic-light green"></div>
                     </div>
                     <div class="mac-title">agenthub.cloud — acme / research-agent</div>
-                    <div style="width:54px"></div>
+                    <div style="width:60px"></div>
                 </div>
 
                 <div class="app-topbar">
