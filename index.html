@@ -257,82 +257,249 @@
             .btn { justify-content: center; width: 100%; }
         }
 
-        /* ===== Terminal preview ===== */
-        .preview-wrap {
-            padding: 30px 0 80px;
-        }
+        /* ===== Product preview (dashboard) ===== */
+        .preview-wrap { padding: 30px 0 80px; }
 
-        .terminal {
+        .product-frame {
+            max-width: 1100px;
+            margin: 0 auto;
             border: 1px solid var(--border);
             background: var(--bg-elevated);
-            max-width: 1000px;
-            margin: 0 auto;
+            overflow: hidden;
             box-shadow:
                 0 0 0 1px rgba(255,255,255,0.02),
                 0 30px 80px -20px rgba(0,0,0,0.6),
                 0 0 120px -30px rgba(255,255,255,0.05);
         }
 
-        .terminal-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
+        .mac-titlebar {
+            display: flex; align-items: center; gap: 14px;
+            padding: 10px 14px;
             border-bottom: 1px solid var(--border);
-            font-size: 11px;
+            background: rgba(255,255,255,0.02);
+        }
+        .mac-traffic-lights { display: flex; gap: 6px; flex: none; }
+        .traffic-light { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.10); }
+        .mac-title { flex: 1; text-align: center; font-size: 11px; color: var(--dim); letter-spacing: 0.3px; }
+
+        .app-topbar {
+            display: flex; align-items: center; gap: 16px;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+        .topbar-brand { display: flex; align-items: center; gap: 8px; font-weight: 700; color: var(--text); flex: none; }
+        .topbar-brand-icon {
+            width: 18px; height: 18px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border-strong);
+            font-size: 10px; color: var(--text); font-weight: 700;
+        }
+        .topbar-breadcrumb { color: var(--muted); display: flex; align-items: center; gap: 6px; font-size: 11.5px; }
+        .topbar-breadcrumb-sep { color: var(--dim); }
+        .topbar-breadcrumb-current { color: var(--text); }
+        .topbar-tabs { display: flex; gap: 4px; margin-left: auto; }
+        .topbar-tab { padding: 5px 10px; font-size: 11px; color: var(--muted); border: 1px solid transparent; }
+        .topbar-tab.active { color: var(--text); border-color: var(--border-strong); background: rgba(255,255,255,0.03); }
+        .topbar-right { display: flex; align-items: center; gap: 10px; flex: none; }
+        .topbar-status { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); }
+        .topbar-avatar {
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--text); color: var(--bg);
+            font-size: 10px; font-weight: 700;
+            display: inline-flex; align-items: center; justify-content: center;
+        }
+
+        .status-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #c6f6c1; box-shadow: 0 0 6px rgba(198,246,193,0.5);
+            animation: pulse-soft 1.6s ease-in-out infinite;
+            flex: none;
+        }
+        @keyframes pulse-soft { 50% { opacity: 0.45; } }
+
+        .mockup-body {
+            display: grid;
+            grid-template-columns: 220px 1fr 240px;
+            min-height: 460px;
+        }
+
+        /* Sidebar */
+        .mockup-sidebar { border-right: 1px solid var(--border); padding: 14px; font-size: 12px; }
+        .sidebar-workspace-switch {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 8px; border: 1px solid var(--border); margin-bottom: 16px;
+            font-size: 12px; color: var(--text);
+        }
+        .workspace-avatar { width: 14px; height: 14px; background: var(--text); flex: none; }
+        .workspace-name { flex: 1; font-weight: 600; font-size: 11.5px; }
+        .workspace-chevron { color: var(--dim); font-size: 10px; }
+        .sidebar-section { margin-bottom: 16px; }
+        .sidebar-section:last-child { margin-bottom: 0; }
+        .sidebar-label {
+            font-size: 10px; color: var(--dim);
+            letter-spacing: 1.2px; text-transform: uppercase;
+            margin-bottom: 6px; padding: 0 8px;
+        }
+        .sidebar-item {
+            display: flex; align-items: center; gap: 8px;
+            padding: 6px 8px;
             color: var(--muted);
-            letter-spacing: 0.5px;
+            border: 1px solid transparent;
+            font-size: 11.5px;
+            margin-bottom: 1px;
         }
-
-        .terminal-bar .dots {
-            display: flex;
-            gap: 6px;
+        .sidebar-item.active {
+            color: var(--text);
+            background: rgba(255,255,255,0.03);
+            border-color: var(--border);
         }
+        .sidebar-dot { width: 6px; height: 6px; border-radius: 50%; flex: none; }
+        .sidebar-dot.running { background: #c6f6c1; box-shadow: 0 0 6px rgba(198,246,193,0.4); animation: pulse-soft 1.6s infinite; }
+        .sidebar-dot.success { background: #8a8a8a; }
+        .sidebar-dot.failed  { background: #f6b1a8; }
+        .sidebar-dot.idle    { background: #3a3a3a; }
+        .sidebar-meta { margin-left: auto; color: var(--dim); font-size: 10px; }
 
-        .terminal-bar .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.10);
+        /* Center */
+        .mockup-center { display: flex; flex-direction: column; min-width: 0; }
+        .center-header { padding: 14px 18px; border-bottom: 1px solid var(--border); }
+        .center-title-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .center-title { font-size: 14px; font-weight: 600; color: var(--text); }
+        .center-status-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 3px 8px; border: 1px solid var(--border-strong);
+            font-size: 11px; color: var(--muted);
         }
-
-        .terminal-bar .path {
-            font-size: 11px;
-            color: var(--dim);
+        .center-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--muted); }
+        .center-meta-label { color: var(--dim); margin-right: 4px; }
+        .center-tabs {
+            display: flex; gap: 4px;
+            padding: 0 18px;
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+            scrollbar-width: none;
         }
+        .center-tabs::-webkit-scrollbar { display: none; }
+        .center-tab {
+            padding: 10px 4px;
+            margin-right: 14px;
+            font-size: 11.5px;
+            color: var(--muted);
+            border-bottom: 1px solid transparent;
+            margin-bottom: -1px;
+            white-space: nowrap;
+        }
+        .center-tab.active { color: var(--text); border-bottom-color: var(--text); }
+        .center-content { padding: 18px; display: flex; flex-direction: column; gap: 16px; }
 
-        .terminal-body {
-            padding: 20px 24px 24px;
-            font-size: 13px;
-            line-height: 1.7;
+        .message-block { display: grid; grid-template-columns: 24px 1fr; gap: 10px; }
+        .message-role-badge {
+            width: 24px; height: 24px;
+            display: inline-flex; align-items: center; justify-content: center;
+            border: 1px solid var(--border-strong);
+            font-size: 10px; font-weight: 700; color: var(--text);
+            background: rgba(255,255,255,0.03);
+            flex: none;
+        }
+        .role-tool { background: transparent; color: var(--muted); }
+        .message-content { min-width: 0; }
+        .message-header { display: flex; gap: 10px; align-items: center; margin-bottom: 4px; font-size: 11px; }
+        .message-name { color: var(--text); font-weight: 600; }
+        .message-time { color: var(--dim); }
+        .message-text { color: var(--muted); font-size: 12.5px; line-height: 1.6; word-wrap: break-word; }
+        .message-text strong { color: var(--text); font-weight: 600; }
+        .message-code {
+            margin-top: 6px;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            font-size: 11.5px; line-height: 1.55;
+            color: var(--muted);
+            white-space: pre;
             overflow-x: auto;
         }
+        .code-key    { color: var(--text); }
+        .code-string { color: #c6f6c1; }
+        .code-num    { color: #f4d58a; }
+        .code-punct  { color: var(--dim); }
+        .tool-result {
+            margin-top: 8px; font-size: 11px; color: var(--muted);
+            border-left: 2px solid var(--border-strong); padding: 2px 0 2px 10px;
+        }
+        .tool-result-header { color: var(--text); font-weight: 600; margin-bottom: 2px; font-size: 11px; }
+        .typing-indicator { display: inline-flex; gap: 3px; margin-left: 4px; align-items: center; }
+        .typing-indicator span { width: 3px; height: 3px; border-radius: 50%; background: var(--dim); animation: typing 1.2s infinite; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.15s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typing { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-        .term-line { display: flex; gap: 12px; white-space: nowrap; }
-        .term-prompt { color: var(--dim); }
-        .term-cmd { color: var(--text); }
-        .term-out { color: var(--muted); padding-left: 22px; white-space: pre; }
-        .term-spacer { height: 10px; }
-        .term-tag {
-            display: inline-block;
-            padding: 1px 6px;
-            border: 1px solid var(--border);
-            font-size: 11px;
+        /* Right rail */
+        .mockup-right { border-left: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+        .right-card { border: 1px solid var(--border); padding: 12px; }
+        .right-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .right-label { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: var(--dim); }
+        .right-action { font-size: 10px; color: var(--muted); cursor: default; }
+        .metadata-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+        .metadata-item { display: flex; flex-direction: column; gap: 2px; }
+        .metadata-label { font-size: 9.5px; color: var(--dim); letter-spacing: 0.4px; text-transform: uppercase; }
+        .metadata-value { font-size: 11.5px; color: var(--text); }
+        .metadata-value.success { color: #c6f6c1; }
+        .version-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 7px 0; border-top: 1px solid var(--border);
+        }
+        .version-row:first-of-type { border-top: 0; padding-top: 0; }
+        .version-tag { font-size: 11px; color: var(--text); }
+        .version-badge {
+            font-size: 10px; padding: 1px 6px;
+            border: 1px solid var(--border-strong);
             color: var(--muted);
-            margin-right: 6px;
         }
-        .term-tag.ok { color: #c6f6c1; border-color: rgba(198,246,193,0.25); }
-        .term-tag.run { color: #f4d58a; border-color: rgba(244,213,138,0.25); }
-        .term-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 14px;
-            background: var(--text);
-            vertical-align: text-bottom;
-            margin-left: 4px;
-            animation: blink 1.05s steps(2) infinite;
+        .version-badge.active { color: var(--text); }
+        .version-meta { font-size: 10px; color: var(--dim); }
+        .review-status { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 10px; }
+        .review-avatar {
+            width: 22px; height: 22px;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+            font-size: 9.5px; color: var(--text); font-weight: 700; flex: none;
         }
-        @keyframes blink { 50% { opacity: 0; } }
+        .review-text { font-size: 11px; color: var(--muted); line-height: 1.5; }
+        .review-text strong { color: var(--text); font-weight: 600; }
+        .review-actions { display: flex; gap: 6px; }
+        .review-btn {
+            font-size: 10.5px; padding: 5px 10px;
+            border: 1px solid var(--border-strong); color: var(--text);
+        }
+        .review-btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+        .activity-item { display: flex; gap: 8px; padding: 7px 0; border-top: 1px solid var(--border); align-items: flex-start; }
+        .activity-item:first-of-type { border-top: 0; padding-top: 0; }
+        .activity-dot { width: 4px; height: 4px; background: var(--text); margin-top: 6px; flex: none; }
+        .activity-content { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+        .activity-text { font-size: 11px; color: var(--muted); }
+        .activity-text strong { color: var(--text); font-weight: 600; }
+        .activity-time { font-size: 10px; color: var(--dim); }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .mockup-body { grid-template-columns: 200px 1fr; }
+            .mockup-right { display: none; }
+        }
+        @media (max-width: 760px) {
+            .mockup-body { grid-template-columns: 1fr; min-height: auto; }
+            .mockup-sidebar { display: none; }
+            .topbar-tabs { display: none; }
+            .topbar-breadcrumb { display: none; }
+        }
+        @media (max-width: 460px) {
+            .center-content { padding: 14px; gap: 14px; }
+            .message-block { grid-template-columns: 22px 1fr; gap: 8px; }
+            .app-topbar { padding: 8px 12px; gap: 10px; }
+            .center-header { padding: 12px 14px; }
+            .center-meta { gap: 10px; row-gap: 4px; }
+            .mac-titlebar { padding: 8px 12px; }
+        }
 
         /* ===== Section primitives ===== */
         section.block {
@@ -643,30 +810,225 @@
             <div class="exclusivity">We're onboarding a small number of agent teams first.</div>
         </section>
 
-        <!-- TERMINAL PREVIEW -->
+        <!-- PRODUCT DASHBOARD PREVIEW -->
         <section class="preview-wrap container" id="features">
-            <div class="terminal" role="img" aria-label="AgentHub workspace preview">
-                <div class="terminal-bar">
-                    <div class="dots">
-                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <div class="product-frame" role="img" aria-label="AgentHub workspace preview">
+                <div class="mac-titlebar">
+                    <div class="mac-traffic-lights">
+                        <div class="traffic-light"></div>
+                        <div class="traffic-light"></div>
+                        <div class="traffic-light"></div>
                     </div>
-                    <div class="path">agenthub://workspace/research-agent</div>
-                    <div style="width:48px"></div>
+                    <div class="mac-title">agenthub.cloud — acme / research-agent</div>
+                    <div style="width:54px"></div>
                 </div>
-                <div class="terminal-body">
-                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub run research-agent --version 14</span></div>
-                    <div class="term-out"><span class="term-tag run">run</span>spawning agent · 4 tools · 2 sub-agents</div>
-                    <div class="term-out"><span class="term-tag ok">ok</span>step 01 · fetch_sources · 412 tokens · 1.4s</div>
-                    <div class="term-out"><span class="term-tag ok">ok</span>step 02 · summarize · 1,203 tokens · 2.1s</div>
-                    <div class="term-out"><span class="term-tag ok">ok</span>step 03 · cross_reference · 980 tokens · 1.8s</div>
-                    <div class="term-out"><span class="term-tag ok">ok</span>review queued → @maya</div>
-                    <div class="term-spacer"></div>
-                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub diff v13 v14</span></div>
-                    <div class="term-out">+ added retrieval fallback for empty results</div>
-                    <div class="term-out">+ tightened system prompt (-184 tokens)</div>
-                    <div class="term-out">~ swapped tool: web_search → indexed_search</div>
-                    <div class="term-spacer"></div>
-                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub share research-agent --team eng<span class="term-cursor"></span></span></div>
+
+                <div class="app-topbar">
+                    <div class="topbar-brand">
+                        <div class="topbar-brand-icon">A</div>
+                        <span>AgentHub</span>
+                    </div>
+                    <div class="topbar-breadcrumb">
+                        <span class="topbar-breadcrumb-sep">/</span>
+                        <span>acme</span>
+                        <span class="topbar-breadcrumb-sep">/</span>
+                        <span class="topbar-breadcrumb-current">research-agent</span>
+                    </div>
+                    <div class="topbar-tabs">
+                        <div class="topbar-tab">Overview</div>
+                        <div class="topbar-tab active">Runs</div>
+                        <div class="topbar-tab">Versions</div>
+                        <div class="topbar-tab">Logs</div>
+                        <div class="topbar-tab">Settings</div>
+                    </div>
+                    <div class="topbar-right">
+                        <div class="topbar-status">
+                            <span class="status-dot"></span>
+                            Running
+                        </div>
+                        <div class="topbar-avatar">T</div>
+                    </div>
+                </div>
+
+                <div class="mockup-body">
+                    <div class="mockup-sidebar">
+                        <div class="sidebar-workspace-switch">
+                            <div class="workspace-avatar"></div>
+                            <div class="workspace-name">Acme Inc</div>
+                            <span class="workspace-chevron">⌄</span>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="sidebar-label">Projects</div>
+                            <div class="sidebar-item active"><span class="sidebar-dot running"></span>Research Agent</div>
+                            <div class="sidebar-item"><span class="sidebar-dot success"></span>Support Bot</div>
+                            <div class="sidebar-item"><span class="sidebar-dot idle"></span>Data Pipeline</div>
+                            <div class="sidebar-item"><span class="sidebar-dot idle"></span>Content Reviewer</div>
+                            <div class="sidebar-item"><span class="sidebar-dot failed"></span>Code Auditor</div>
+                        </div>
+
+                        <div class="sidebar-section">
+                            <div class="sidebar-label">Recent runs</div>
+                            <div class="sidebar-item active"><span class="sidebar-dot running"></span>#2847<span class="sidebar-meta">2.4s</span></div>
+                            <div class="sidebar-item"><span class="sidebar-dot success"></span>#2846<span class="sidebar-meta">1.4s</span></div>
+                            <div class="sidebar-item"><span class="sidebar-dot success"></span>#2845<span class="sidebar-meta">2.1s</span></div>
+                            <div class="sidebar-item"><span class="sidebar-dot failed"></span>#2844<span class="sidebar-meta">0.3s</span></div>
+                        </div>
+                    </div>
+
+                    <div class="mockup-center">
+                        <div class="center-header">
+                            <div class="center-title-row">
+                                <div class="center-title">Run #2847</div>
+                                <div class="center-status-badge"><span class="status-dot"></span>Running</div>
+                            </div>
+                            <div class="center-meta">
+                                <div><span class="center-meta-label">Started</span>14:25:08 UTC</div>
+                                <div><span class="center-meta-label">Version</span>v2.4</div>
+                                <div><span class="center-meta-label">Model</span>claude-4</div>
+                                <div><span class="center-meta-label">Trigger</span>manual</div>
+                            </div>
+                        </div>
+
+                        <div class="center-tabs">
+                            <div class="center-tab active">Conversation</div>
+                            <div class="center-tab">Tools</div>
+                            <div class="center-tab">Logs</div>
+                            <div class="center-tab">Output</div>
+                        </div>
+
+                        <div class="center-content">
+                            <div class="message-block">
+                                <div class="message-role-badge">U</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <div class="message-name">User</div>
+                                        <div class="message-time">14:25:08</div>
+                                    </div>
+                                    <div class="message-text">Compare CAC and LTV for top-tier SaaS companies in the last 4 quarters.</div>
+                                </div>
+                            </div>
+
+                            <div class="message-block">
+                                <div class="message-role-badge">AI</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <div class="message-name">research-agent</div>
+                                        <div class="message-time">14:25:09</div>
+                                    </div>
+                                    <div class="message-text">Pulling filings from the last 4 quarters, segmenting by ARR tier, computing unit economics.</div>
+                                </div>
+                            </div>
+
+                            <div class="message-block">
+                                <div class="message-role-badge role-tool">T</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <div class="message-name">search_filings</div>
+                                        <div class="message-time">14:25:10</div>
+                                    </div>
+<div class="message-code">{
+  <span class="code-key">"query"</span>: <span class="code-string">"SaaS CAC LTV Q1–Q4 2025"</span><span class="code-punct">,</span>
+  <span class="code-key">"sources"</span>: [<span class="code-string">"10-K"</span><span class="code-punct">,</span> <span class="code-string">"10-Q"</span>]<span class="code-punct">,</span>
+  <span class="code-key">"limit"</span>: <span class="code-num">24</span>
+}</div>
+                                    <div class="tool-result">
+                                        <div class="tool-result-header">✓ Result · 247 documents</div>
+                                        Indexed across 15 datasets · 4.2 MB · 1.21s
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="message-block">
+                                <div class="message-role-badge">AI</div>
+                                <div class="message-content">
+                                    <div class="message-header">
+                                        <div class="message-name">research-agent</div>
+                                        <div class="message-time">14:25:11</div>
+                                        <span class="typing-indicator"><span></span><span></span><span></span></span>
+                                    </div>
+                                    <div class="message-text">Synthesizing — median LTV:CAC ratio of <strong>2.3x</strong> at the top quartile. Correlation coefficient <strong>r = 0.78</strong>.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mockup-right">
+                        <div class="right-card">
+                            <div class="right-card-header">
+                                <div class="right-label">Run info</div>
+                                <div class="right-action">Details</div>
+                            </div>
+                            <div class="metadata-grid">
+                                <div class="metadata-item"><span class="metadata-label">Run ID</span><span class="metadata-value">#2847</span></div>
+                                <div class="metadata-item"><span class="metadata-label">Status</span><span class="metadata-value success">Running</span></div>
+                                <div class="metadata-item"><span class="metadata-label">Elapsed</span><span class="metadata-value">2.4s</span></div>
+                                <div class="metadata-item"><span class="metadata-label">Tokens</span><span class="metadata-value">2,156</span></div>
+                                <div class="metadata-item"><span class="metadata-label">Cost</span><span class="metadata-value">$0.014</span></div>
+                                <div class="metadata-item"><span class="metadata-label">Tools</span><span class="metadata-value">3 / 5</span></div>
+                            </div>
+                        </div>
+
+                        <div class="right-card">
+                            <div class="right-card-header">
+                                <div class="right-label">Versions</div>
+                                <div class="right-action">Compare</div>
+                            </div>
+                            <div class="version-row">
+                                <div class="version-tag">v2.4</div>
+                                <span class="version-badge active">Active</span>
+                            </div>
+                            <div class="version-row">
+                                <div class="version-tag">v2.5-rc</div>
+                                <span class="version-badge">Draft</span>
+                            </div>
+                            <div class="version-row">
+                                <div class="version-tag">v2.3</div>
+                                <span class="version-meta">3d ago</span>
+                            </div>
+                        </div>
+
+                        <div class="right-card">
+                            <div class="right-card-header">
+                                <div class="right-label">Review</div>
+                            </div>
+                            <div class="review-status">
+                                <div class="review-avatar">SC</div>
+                                <div class="review-text"><strong>Sarah Chen</strong> requested review of v2.5-rc</div>
+                            </div>
+                            <div class="review-actions">
+                                <div class="review-btn primary">Approve</div>
+                                <div class="review-btn">Comment</div>
+                            </div>
+                        </div>
+
+                        <div class="right-card">
+                            <div class="right-card-header">
+                                <div class="right-label">Activity</div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-dot"></span>
+                                <div class="activity-content">
+                                    <div class="activity-text"><strong>T. Elias</strong> deployed v2.4 to prod</div>
+                                    <div class="activity-time">2m ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-dot"></span>
+                                <div class="activity-content">
+                                    <div class="activity-text"><strong>S. Chen</strong> updated tool config</div>
+                                    <div class="activity-time">14m ago</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <span class="activity-dot"></span>
+                                <div class="activity-content">
+                                    <div class="activity-text"><strong>M. Park</strong> merged PR #128</div>
+                                    <div class="activity-time">1h ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
