@@ -152,38 +152,51 @@
             box-shadow: 0 0 8px rgba(255,255,255,0.6);
         }
 
-        .brand-mark {
-            font-weight: 800;
-            font-size: clamp(3.5rem, 19vw, 14rem);
-            letter-spacing: -0.04em;
-            line-height: 0.92;
-            color: var(--text);
-            margin: 0 auto 40px;
-            display: block;
-            background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #7c7c7c 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow:
-                0 0 60px rgba(255,255,255,0.08);
+        .brand-mark-wrap {
+            margin: 0 auto 44px;
+            text-align: center;
             position: relative;
-            user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
         }
 
-        .brand-mark::before,
-        .brand-mark::after {
+        .brand-mark-wrap::before,
+        .brand-mark-wrap::after {
             content: '';
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+            display: block;
             width: clamp(180px, 50vw, 520px);
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
         }
-        .brand-mark::before { top: -18px; }
-        .brand-mark::after  { bottom: -18px; }
 
-        .hero h1 {
+        .brand-mark {
+            display: block;
+            width: 100%;
+            max-width: 1100px;
+            height: auto;
+            fill: var(--text);
+            filter:
+                drop-shadow(0 0 24px rgba(255,255,255,0.05))
+                drop-shadow(0 4px 28px rgba(255,255,255,0.04));
+            user-select: none;
+        }
+
+        .visually-hidden {
+            position: absolute !important;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            white-space: nowrap;
+            border: 0;
+            padding: 0;
+            margin: -1px;
+        }
+
+        .hero-tagline {
             font-size: clamp(1.35rem, 3.4vw, 2rem);
             font-weight: 600;
             line-height: 1.25;
@@ -793,11 +806,14 @@
     <main>
         <!-- HERO -->
         <section class="hero container" id="product">
+            <h1 class="visually-hidden">AgentHub</h1>
             <span class="eyebrow">Private beta opening soon →</span>
 
-            <span class="brand-mark" aria-label="AgentHub">AGENTHUB</span>
+            <div class="brand-mark-wrap">
+                <svg class="brand-mark" id="agenthub-mark" viewBox="0 0 54 7" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false"></svg>
+            </div>
 
-            <h1>The cloud workspace for serious AI agent builders.</h1>
+            <h2 class="hero-tagline">The cloud workspace for serious AI agent builders.</h2>
             <p class="subhead">
                 Build, run, version, review, and ship production AI agents with your team — from one shared workspace.
             </p>
@@ -1166,6 +1182,45 @@
     </footer>
 
     <script>
+        // ===== AGENTHUB block-style wordmark =====
+        (function renderBrandMark() {
+            const LETTERS = {
+                A: ['01110','10001','10001','11111','10001','10001','10001'],
+                G: ['01110','10001','10000','10111','10001','10001','01110'],
+                E: ['11111','10000','10000','11110','10000','10000','11111'],
+                N: ['10001','11001','10101','10101','10011','10001','10001'],
+                T: ['11111','00100','00100','00100','00100','00100','00100'],
+                H: ['10001','10001','10001','11111','10001','10001','10001'],
+                U: ['10001','10001','10001','10001','10001','10001','01110'],
+                B: ['11110','10001','10001','11110','10001','10001','11110'],
+            };
+            const word = 'AGENTHUB';
+            const svg = document.getElementById('agenthub-mark');
+            if (!svg) return;
+            const NS = 'http://www.w3.org/2000/svg';
+            const LETTER_W = 5;
+            const LETTER_OFFSET = 7;
+            for (let i = 0; i < word.length; i++) {
+                const pat = LETTERS[word[i]];
+                if (!pat) continue;
+                const offX = i * LETTER_OFFSET;
+                for (let r = 0; r < 7; r++) {
+                    for (let c = 0; c < LETTER_W; c++) {
+                        if (pat[r][c] === '1') {
+                            const rect = document.createElementNS(NS, 'rect');
+                            rect.setAttribute('x', (offX + c + 0.08).toFixed(2));
+                            rect.setAttribute('y', (r + 0.08).toFixed(2));
+                            rect.setAttribute('width', '0.84');
+                            rect.setAttribute('height', '0.84');
+                            rect.setAttribute('rx', '0.22');
+                            rect.setAttribute('ry', '0.22');
+                            svg.appendChild(rect);
+                        }
+                    }
+                }
+            }
+        })();
+
         const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         const form = document.getElementById('lead-form');
