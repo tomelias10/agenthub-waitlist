@@ -3,1230 +3,585 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgentHub — Build, run, and ship AI agents in the cloud</title>
+    <title>AgentHub — The cloud workspace for serious AI agent builders</title>
+    <meta name="description" content="Build, run, version, review, and ship production AI agents with your team — from one shared cloud workspace. Private beta opening soon.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg: #0d0b0b;
+            --bg-elevated: #131111;
+            --text: #f4f4f4;
+            --muted: #9ca3af;
+            --dim: #6b7280;
+            --border: rgba(255, 255, 255, 0.10);
+            --border-strong: rgba(255, 255, 255, 0.18);
+            --accent: #f4f4f4;
+            --grid: rgba(255, 255, 255, 0.04);
+            --max-width: 1180px;
         }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #070708;
-            color: #e5e5e5;
-            line-height: 1.6;
-            letter-spacing: 0.2px;
+            font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.55;
+            font-size: 15px;
+            font-weight: 400;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 20% -10%, rgba(255,255,255,0.025), transparent 50%),
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: auto, 64px 64px, 64px 64px;
+            background-position: 0 0, 0 0, 0 0;
         }
 
-        .mono {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            line-height: 1.15;
-            font-weight: 600;
-            letter-spacing: -0.6px;
-        }
-
-        h1 { font-size: 4rem; }
-        h2 { font-size: 2.5rem; }
-        h3 { font-size: 1.5rem; }
-
-        p {
-            color: #a8a8a8;
-            margin-bottom: 1rem;
-        }
-
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        a { color: inherit; text-decoration: none; }
+        button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        input, textarea { font: inherit; color: inherit; }
 
         .container {
-            max-width: 1200px;
+            width: 100%;
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 0 24px;
         }
 
-        /* Header */
+        /* ===== Header ===== */
         header {
-            position: fixed;
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.1rem 2rem;
-            background: rgba(7, 7, 8, 0.8);
+            z-index: 50;
+            background: rgba(13, 11, 11, 0.78);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            z-index: 100;
+            border-bottom: 1px solid var(--border);
         }
 
-        header .container {
+        .header-inner {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
+            padding: 14px 0;
         }
 
-        .logo {
-            font-size: 1.15rem;
+        .brand {
             font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 14px;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 8px;
         }
 
-        .logo-mark {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #5ee76f 0%, #22c55e 100%);
+        .brand-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text);
+            display: inline-block;
+        }
+
+        nav.primary {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav.primary a {
+            font-size: 13px;
+            color: var(--muted);
+            transition: color .15s ease;
+        }
+
+        nav.primary a:hover { color: var(--text); }
+
+        .header-cta {
+            font-size: 13px;
+            padding: 8px 14px;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+            transition: background .15s ease, border-color .15s ease;
+        }
+
+        .header-cta:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        @media (max-width: 720px) {
+            nav.primary { display: none; }
+        }
+
+        /* ===== Hero ===== */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+            position: relative;
+        }
+
+        .eyebrow {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #050505;
+            gap: 8px;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            margin-bottom: 56px;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #f5f5f5;
+            box-shadow: 0 0 8px rgba(255,255,255,0.6);
+        }
+
+        .brand-mark {
             font-weight: 800;
-        }
-
-        nav {
-            display: flex;
-            gap: 2.25rem;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #a0a0a0;
-            font-size: 0.9rem;
-            transition: color 0.15s;
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            color: #e5e5e5;
-        }
-
-        /* ====== HERO ====== */
-        .hero {
-            max-width: none;
-            padding: 8rem 2rem 4rem;
+            font-size: clamp(3.5rem, 19vw, 14rem);
+            letter-spacing: -0.04em;
+            line-height: 0.92;
+            color: var(--text);
+            margin: 0 auto 40px;
+            display: block;
+            background: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #7c7c7c 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow:
+                0 0 60px rgba(255,255,255,0.08);
             position: relative;
-            overflow: hidden;
+            user-select: none;
         }
 
-        .hero::before {
-            content: "";
+        .brand-mark::before,
+        .brand-mark::after {
+            content: '';
             position: absolute;
-            top: -10%;
             left: 50%;
             transform: translateX(-50%);
-            width: 1200px;
-            height: 600px;
-            background: radial-gradient(ellipse at center, rgba(94, 231, 111, 0.06) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
+            width: clamp(180px, 50vw, 520px);
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
         }
-
-        .hero-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-text {
-            text-align: center;
-            max-width: 780px;
-            margin: 0 auto 4rem;
-        }
-
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.35rem 0.85rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 100px;
-            font-size: 0.78rem;
-            color: #b0b0b0;
-            margin-bottom: 1.75rem;
-        }
-
-        .hero-eyebrow .eyebrow-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #5ee76f;
-            box-shadow: 0 0 6px rgba(94, 231, 111, 0.6);
-        }
+        .brand-mark::before { top: -18px; }
+        .brand-mark::after  { bottom: -18px; }
 
         .hero h1 {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-            font-size: 3.5rem;
-            font-weight: 500;
-            line-height: 1.08;
-            letter-spacing: -1.8px;
-            margin-bottom: 1.75rem;
-            background: linear-gradient(180deg, #ffffff 0%, #8a8a8a 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: clamp(1.35rem, 3.4vw, 2rem);
+            font-weight: 600;
+            line-height: 1.25;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 18px;
         }
 
-        .hero h1 .accent {
-            -webkit-text-fill-color: #5ee76f;
-            color: #5ee76f;
-            background: none;
-            -webkit-background-clip: initial;
-            background-clip: initial;
-        }
-
-        .hero-subtitle {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
-            font-size: 0.98rem;
-            color: #9a9a9a;
-            margin-bottom: 2.5rem;
-            line-height: 1.7;
-            letter-spacing: -0.1px;
+        .hero p.subhead {
+            font-size: clamp(0.92rem, 1.4vw, 1rem);
+            color: var(--muted);
             max-width: 640px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 400;
+            margin: 0 auto 36px;
+            line-height: 1.65;
         }
 
-        .hero-cta {
+        .cta-row {
             display: flex;
-            gap: 0.5rem;
+            gap: 12px;
             justify-content: center;
-            max-width: 460px;
-            margin: 0 auto;
             flex-wrap: wrap;
+            margin-bottom: 18px;
         }
 
-        .email-input {
-            flex: 1;
-            min-width: 220px;
-            padding: 0.85rem 1.1rem;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #e5e5e5;
-            font-size: 0.92rem;
-            transition: all 0.2s;
-            font-family: inherit;
-        }
-
-        .email-input::placeholder { color: #5a5a5a; }
-
-        .email-input:focus {
-            outline: none;
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(94, 231, 111, 0.4);
-            box-shadow: 0 0 0 3px rgba(94, 231, 111, 0.08);
-        }
-
-        .btn-submit {
-            padding: 0.85rem 1.5rem;
-            background: #f5f5f5;
-            color: #050505;
-            border: none;
-            border-radius: 8px;
-            font-weight: 500;
-            font-size: 0.92rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            white-space: nowrap;
-            font-family: inherit;
-        }
-
-        .btn-submit:hover {
-            background: #ffffff;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-submit:active { transform: translateY(0); }
-
-        .form-message {
-            margin-top: 0.85rem;
-            font-size: 0.85rem;
-            min-height: 1.2rem;
-            text-align: center;
-        }
-
-        .form-message.success { color: #5ee76f; }
-        .form-message.error { color: #f87171; }
-
-        .cta-secondary-row {
-            display: flex;
-            justify-content: center;
-            margin-top: 1.5rem;
-        }
-
-        .cta-secondary {
-            color: #888;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: color 0.15s;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .cta-secondary:hover { color: #e5e5e5; }
-
-        /* ====== LEAD FORM (full) ====== */
-        .lead-form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.65rem;
-            max-width: 520px;
-            margin: 0 auto;
-            text-align: left;
-        }
-
-        .lead-form .form-row {
-            display: flex;
-            gap: 0.65rem;
-            flex-wrap: wrap;
-        }
-
-        .lead-form .form-row .email-input { flex: 1 1 220px; min-width: 0; }
-
-        .lead-form textarea.email-input {
-            resize: vertical;
-            min-height: 96px;
-            font-family: inherit;
-            line-height: 1.55;
-        }
-
-        .lead-form .btn-submit { width: 100%; padding: 0.95rem 1.5rem; }
-
-        .lead-form .btn-submit[disabled] {
-            opacity: 0.55;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .honeypot {
-            position: absolute !important;
-            left: -10000px !important;
-            top: auto !important;
-            width: 1px !important;
-            height: 1px !important;
-            overflow: hidden !important;
-        }
-
-        /* ====== PRODUCT MOCKUP ====== */
-        .hero-visual {
-            position: relative;
-            background: #0b0b0c;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow:
-                0 60px 120px -20px rgba(0, 0, 0, 0.95),
-                0 30px 60px -30px rgba(0, 0, 0, 0.9),
-                inset 0 1px 0 rgba(255, 255, 255, 0.06);
-            max-width: 1320px;
-            margin: 0 auto;
-        }
-
-        /* Mac titlebar */
-        .mac-titlebar {
-            background: linear-gradient(180deg, #2c2c2e 0%, #1e1e20 100%);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.6);
-            height: 34px;
-            display: flex;
-            align-items: center;
-            padding: 0 1rem;
-            gap: 0.75rem;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .mac-traffic-lights {
-            display: flex;
-            gap: 0.5rem;
-            position: absolute;
-            left: 1rem;
-        }
-
-        .traffic-light {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            box-shadow: inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .traffic-red { background: #ff5f57; }
-        .traffic-yellow { background: #febc2e; }
-        .traffic-green { background: #28c840; }
-
-        .mac-title {
-            flex: 1;
-            text-align: center;
-            font-size: 0.78rem;
-            color: #999;
-            font-weight: 500;
-            letter-spacing: 0.2px;
-        }
-
-        /* App top bar */
-        .app-topbar {
-            background: #0f0f10;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 0.65rem 1.1rem;
-            display: flex;
-            align-items: center;
-            gap: 1.25rem;
-            flex-shrink: 0;
-        }
-
-        .topbar-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.85rem;
+        .btn {
+            font-size: 13px;
             font-weight: 600;
-            color: #e5e5e5;
-        }
-
-        .topbar-brand-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 6px;
-            background: linear-gradient(135deg, #5ee76f 0%, #22c55e 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.68rem;
-            color: #050505;
-            font-weight: 800;
-        }
-
-        .topbar-breadcrumb {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            color: #6a6a6a;
-            font-size: 0.8rem;
-        }
-
-        .topbar-breadcrumb-sep { color: #383838; }
-        .topbar-breadcrumb-current {
-            color: #e5e5e5;
-            font-weight: 500;
-        }
-
-        .topbar-tabs {
-            display: flex;
-            gap: 0.15rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .topbar-tab {
-            padding: 0.4rem 0.85rem;
-            font-size: 0.78rem;
-            color: #8a8a8a;
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.15s;
-        }
-
-        .topbar-tab.active {
-            color: #e5e5e5;
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .topbar-right {
-            display: flex;
-            align-items: center;
-            gap: 0.65rem;
-        }
-
-        .topbar-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background: rgba(94, 231, 111, 0.1);
-            color: #5ee76f;
-            padding: 0.3rem 0.7rem;
-            border-radius: 6px;
-            font-size: 0.72rem;
-            font-weight: 500;
-            border: 1px solid rgba(94, 231, 111, 0.2);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: #5ee76f;
-            box-shadow: 0 0 6px rgba(94, 231, 111, 0.7);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .topbar-avatar {
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.65rem;
-            color: white;
-            font-weight: 600;
-        }
-
-        /* Body: 3-column workspace */
-        .mockup-body {
-            display: grid;
-            grid-template-columns: 224px 1fr 288px;
-            min-height: 540px;
-        }
-
-        /* ===== SIDEBAR ===== */
-        .mockup-sidebar {
-            background: #0a0a0b;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 0.85rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sidebar-workspace-switch {
-            padding: 0.55rem 0.65rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 7px;
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            font-size: 0.78rem;
-            color: #e5e5e5;
-            margin-bottom: 1.1rem;
-        }
-
-        .workspace-avatar {
-            width: 22px;
-            height: 22px;
-            border-radius: 5px;
-            background: linear-gradient(135deg, #f97316, #ef4444);
-            flex-shrink: 0;
-        }
-
-        .workspace-name {
-            flex: 1;
-            font-weight: 500;
-        }
-
-        .workspace-chevron { color: #555; font-size: 0.65rem; }
-
-        .sidebar-section { margin-bottom: 1.1rem; }
-        .sidebar-section:last-child { margin-bottom: 0; }
-
-        .sidebar-label {
-            font-size: 0.62rem;
-            text-transform: uppercase;
-            color: #4d4d4d;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin: 0 0.4rem 0.45rem;
-        }
-
-        .sidebar-item {
-            padding: 0.4rem 0.55rem;
-            margin-bottom: 0.1rem;
-            border-radius: 6px;
-            font-size: 0.79rem;
-            cursor: pointer;
-            color: #8a8a8a;
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            transition: all 0.15s;
-        }
-
-        .sidebar-item:hover {
-            background: rgba(255, 255, 255, 0.04);
-            color: #d0d0d0;
-        }
-
-        .sidebar-item.active {
-            background: rgba(255, 255, 255, 0.07);
-            color: #e5e5e5;
-            font-weight: 500;
-        }
-
-        .sidebar-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .sidebar-dot.running { background: #5ee76f; box-shadow: 0 0 5px rgba(94, 231, 111, 0.6); animation: pulse 2s infinite; }
-        .sidebar-dot.success { background: #5ee76f; }
-        .sidebar-dot.failed { background: #f87171; }
-        .sidebar-dot.idle { background: #444; }
-
-        .sidebar-meta {
-            margin-left: auto;
-            font-size: 0.68rem;
-            color: #555;
-            font-family: 'SF Mono', 'Monaco', monospace;
-        }
-
-        /* ===== CENTER PANEL ===== */
-        .mockup-center {
-            background: #0c0c0d;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .center-header {
-            padding: 0.9rem 1.2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .center-title-row {
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-            margin-bottom: 0.35rem;
-        }
-
-        .center-title {
-            font-size: 0.95rem;
-            color: #e5e5e5;
-            font-weight: 600;
-        }
-
-        .center-status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-            background: rgba(94, 231, 111, 0.1);
-            color: #5ee76f;
-            padding: 0.15rem 0.5rem;
-            border-radius: 4px;
-            font-size: 0.68rem;
-            font-weight: 500;
-            border: 1px solid rgba(94, 231, 111, 0.2);
-        }
-
-        .center-meta {
-            display: flex;
-            gap: 1.2rem;
-            font-size: 0.72rem;
-            color: #6b6b6b;
-            flex-wrap: wrap;
-        }
-
-        .center-meta-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .center-meta-label { color: #4a4a4a; }
-
-        .center-tabs {
-            display: flex;
-            padding: 0 1.2rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            gap: 0.1rem;
-        }
-
-        .center-tab {
-            padding: 0.55rem 0.85rem;
-            font-size: 0.75rem;
-            color: #888;
-            cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.15s;
-            margin-bottom: -1px;
-        }
-
-        .center-tab.active {
-            color: #e5e5e5;
-            border-bottom-color: #5ee76f;
-        }
-
-        .center-content {
-            padding: 1rem 1.2rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.85rem;
-            overflow: hidden;
-        }
-
-        .message-block {
-            display: flex;
-            gap: 0.7rem;
-            align-items: flex-start;
-        }
-
-        .message-role-badge {
-            flex-shrink: 0;
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            font-weight: 700;
+            padding: 12px 22px;
             letter-spacing: 0.3px;
+            transition: transform .12s ease, background .15s ease, border-color .15s ease, color .15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid transparent;
+            white-space: nowrap;
         }
 
-        .role-user {
-            background: rgba(99, 102, 241, 0.16);
-            color: #a5b4fc;
-            border: 1px solid rgba(99, 102, 241, 0.28);
+        .btn-primary {
+            background: var(--text);
+            color: #0a0a0a;
+            border-color: var(--text);
         }
 
-        .role-agent {
-            background: rgba(94, 231, 111, 0.13);
-            color: #5ee76f;
-            border: 1px solid rgba(94, 231, 111, 0.25);
+        .btn-primary:hover {
+            background: #e5e5e5;
+            border-color: #e5e5e5;
+            transform: translateY(-1px);
         }
 
-        .role-tool {
-            background: rgba(251, 191, 36, 0.13);
-            color: #fbbf24;
-            border: 1px solid rgba(251, 191, 36, 0.25);
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border-strong);
         }
 
-        .message-content {
-            flex: 1;
-            min-width: 0;
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.32);
         }
 
-        .message-header {
+        .exclusivity {
+            font-size: 12px;
+            color: var(--dim);
+            letter-spacing: 0.3px;
+            margin-top: 6px;
+        }
+
+        @media (max-width: 560px) {
+            .cta-row { flex-direction: column; align-items: stretch; padding: 0 8px; }
+            .btn { justify-content: center; width: 100%; }
+        }
+
+        /* ===== Terminal preview ===== */
+        .preview-wrap {
+            padding: 30px 0 80px;
+        }
+
+        .terminal {
+            border: 1px solid var(--border);
+            background: var(--bg-elevated);
+            max-width: 1000px;
+            margin: 0 auto;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.02),
+                0 30px 80px -20px rgba(0,0,0,0.6),
+                0 0 120px -30px rgba(255,255,255,0.05);
+        }
+
+        .terminal-bar {
             display: flex;
-            align-items: baseline;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 0.5px;
         }
 
-        .message-name {
-            font-size: 0.78rem;
-            color: #d4d4d4;
-            font-weight: 600;
+        .terminal-bar .dots {
+            display: flex;
+            gap: 6px;
         }
 
-        .message-time {
-            font-size: 0.68rem;
-            color: #555;
-            font-family: 'SF Mono', 'Monaco', monospace;
+        .terminal-bar .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.10);
         }
 
-        .message-text {
-            font-size: 0.8rem;
-            color: #aeaeae;
-            line-height: 1.55;
+        .terminal-bar .path {
+            font-size: 11px;
+            color: var(--dim);
         }
 
-        .message-text strong { color: #5ee76f; font-weight: 600; }
-
-        .message-code {
-            margin-top: 0.4rem;
-            padding: 0.55rem 0.75rem;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-family: 'SF Mono', 'Monaco', 'Courier New', monospace;
-            font-size: 0.72rem;
-            color: #c0c5d0;
-            line-height: 1.6;
-            white-space: pre;
+        .terminal-body {
+            padding: 20px 24px 24px;
+            font-size: 13px;
+            line-height: 1.7;
             overflow-x: auto;
         }
 
-        .code-key { color: #fbbf24; }
-        .code-string { color: #5ee76f; }
-        .code-num { color: #a5b4fc; }
-        .code-punct { color: #6a6a6a; }
+        .term-line { display: flex; gap: 12px; white-space: nowrap; }
+        .term-prompt { color: var(--dim); }
+        .term-cmd { color: var(--text); }
+        .term-out { color: var(--muted); padding-left: 22px; white-space: pre; }
+        .term-spacer { height: 10px; }
+        .term-tag {
+            display: inline-block;
+            padding: 1px 6px;
+            border: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--muted);
+            margin-right: 6px;
+        }
+        .term-tag.ok { color: #c6f6c1; border-color: rgba(198,246,193,0.25); }
+        .term-tag.run { color: #f4d58a; border-color: rgba(244,213,138,0.25); }
+        .term-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: var(--text);
+            vertical-align: text-bottom;
+            margin-left: 4px;
+            animation: blink 1.05s steps(2) infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        .tool-result {
-            margin-top: 0.4rem;
-            padding: 0.5rem 0.7rem;
-            background: rgba(94, 231, 111, 0.04);
-            border-left: 2px solid rgba(94, 231, 111, 0.4);
-            border-radius: 0 5px 5px 0;
-            font-size: 0.74rem;
-            color: #9a9a9a;
-            line-height: 1.5;
+        /* ===== Section primitives ===== */
+        section.block {
+            padding: 90px 0;
+            border-top: 1px solid var(--border);
         }
 
-        .tool-result-header {
-            font-size: 0.65rem;
-            color: #5ee76f;
-            font-weight: 600;
+        .section-label {
+            display: inline-block;
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            margin-bottom: 0.2rem;
+            margin-bottom: 20px;
         }
 
-        .typing-indicator {
-            display: inline-flex;
-            gap: 3px;
-            margin-left: 0.3rem;
-            align-items: center;
-            height: 10px;
+        .section-label::before { content: '// '; color: var(--border-strong); }
+
+        h2.section-h {
+            font-size: clamp(1.5rem, 3.2vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+            color: var(--text);
+            max-width: 720px;
+            margin-bottom: 18px;
         }
 
-        .typing-indicator span {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
-            background: #5ee76f;
-            animation: typing 1.4s infinite ease-in-out;
+        .section-lead {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+            max-width: 680px;
         }
 
-        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        .section-lead + .section-lead { margin-top: 14px; }
 
-        @keyframes typing {
-            0%, 80%, 100% { opacity: 0.2; transform: translateY(0); }
-            40% { opacity: 1; transform: translateY(-2px); }
-        }
-
-        /* ===== RIGHT PANEL ===== */
-        .mockup-right {
-            background: #08080a;
-            border-left: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 0.85rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            overflow: hidden;
-        }
-
-        .right-card {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 7px;
-            padding: 0.75rem 0.85rem;
-        }
-
-        .right-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.65rem;
-        }
-
-        .right-label {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            color: #5a5a5a;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .right-action {
-            font-size: 0.68rem;
-            color: #5ee76f;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .metadata-grid {
+        /* ===== Built for teams ===== */
+        .agent-grid {
+            margin-top: 36px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.6rem 0.7rem;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
         }
 
-        .metadata-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.15rem;
-        }
-
-        .metadata-label {
-            color: #5a5a5a;
-            font-size: 0.62rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .metadata-value {
-            color: #e5e5e5;
-            font-weight: 500;
-            font-size: 0.82rem;
-            font-family: 'SF Mono', 'Monaco', monospace;
-        }
-
-        .metadata-value.success { color: #5ee76f; }
-
-        .version-row {
+        .agent-grid > div {
+            background: var(--bg);
+            padding: 22px 20px;
+            font-size: 13px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0.4rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.78rem;
+            gap: 12px;
+            color: var(--text);
         }
 
-        .version-row:last-child { border-bottom: none; }
-
-        .version-tag {
-            color: #e5e5e5;
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 0.78rem;
+        .agent-grid > div::before {
+            content: '▍';
+            color: var(--dim);
+            font-size: 10px;
         }
 
-        .version-badge {
-            font-size: 0.58rem;
-            padding: 0.12rem 0.4rem;
-            border-radius: 3px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        @media (max-width: 760px) {
+            .agent-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 460px) {
+            .agent-grid { grid-template-columns: 1fr; }
         }
 
-        .version-badge.active {
-            background: rgba(94, 231, 111, 0.14);
-            color: #5ee76f;
-        }
-
-        .version-badge.draft {
-            background: rgba(251, 191, 36, 0.12);
-            color: #fbbf24;
-        }
-
-        .version-meta {
-            color: #5a5a5a;
-            font-size: 0.7rem;
-            font-family: 'SF Mono', 'Monaco', monospace;
-        }
-
-        .review-status {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            padding: 0.3rem 0;
-        }
-
-        .review-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #ec4899, #f43f5e);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.65rem;
-            color: white;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .review-text {
-            font-size: 0.75rem;
-            color: #a8a8a8;
-            line-height: 1.4;
-        }
-
-        .review-text strong { color: #e5e5e5; font-weight: 600; }
-
-        .review-actions {
-            display: flex;
-            gap: 0.4rem;
-            margin-top: 0.65rem;
-        }
-
-        .review-btn {
-            flex: 1;
-            padding: 0.4rem;
-            font-size: 0.72rem;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.15s;
-            font-weight: 500;
-        }
-
-        .review-btn.primary {
-            background: rgba(94, 231, 111, 0.13);
-            color: #5ee76f;
-            border: 1px solid rgba(94, 231, 111, 0.3);
-        }
-
-        .review-btn.primary:hover { background: rgba(94, 231, 111, 0.2); }
-
-        .review-btn.secondary {
-            background: rgba(255, 255, 255, 0.03);
-            color: #b3b3b3;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .review-btn.secondary:hover { background: rgba(255, 255, 255, 0.06); }
-
-        .activity-item {
-            padding: 0.4rem 0;
-            display: flex;
-            gap: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.72rem;
-        }
-
-        .activity-item:last-child { border-bottom: none; }
-
-        .activity-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #5ee76f;
-            margin-top: 7px;
-            flex-shrink: 0;
-        }
-
-        .activity-content { flex: 1; min-width: 0; }
-        .activity-text { color: #a8a8a8; line-height: 1.4; }
-        .activity-text strong { color: #e5e5e5; font-weight: 600; }
-
-        .activity-time {
-            color: #555;
-            font-family: 'SF Mono', 'Monaco', monospace;
-            font-size: 0.65rem;
-            margin-top: 0.15rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 1100px) {
-            .mockup-body { grid-template-columns: 200px 1fr; }
-            .mockup-right { display: none; }
-            .topbar-breadcrumb { display: none; }
-        }
-
-        @media (max-width: 820px) {
-            .hero { padding: 6rem 1rem 3rem; }
-            .hero h1 { font-size: 2rem; letter-spacing: -1px; line-height: 1.1; }
-            .hero-subtitle { font-size: 0.9rem; }
-            .mockup-body { grid-template-columns: 1fr; min-height: auto; }
-            .mockup-sidebar { display: none; }
-            .topbar-tabs { display: none; }
-            .topbar-brand span { display: none; }
-            .hero-cta { flex-direction: column; }
-            .btn-submit { width: 100%; }
-        }
-
-        @media (max-width: 768px) {
-            section { padding: 4rem 1.25rem; }
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.75rem; }
-            nav { display: none; }
-        }
-
-        /* ====== PROBLEM / SOLUTION ====== */
-        .problem-solution {
-            background: rgba(255, 255, 255, 0.015);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .problem-solution h2 {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .grid-2 {
+        /* ===== How it works ===== */
+        .steps {
+            margin-top: 36px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 2.5rem;
-        }
-
-        .card-problem, .card-solution {
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-        }
-
-        .card-problem h3 { color: #f87171; margin-bottom: 1rem; }
-        .card-solution h3 { color: #5ee76f; margin-bottom: 1rem; }
-        .card-problem ul, .card-solution ul { list-style: none; }
-
-        .card-problem li, .card-solution li {
-            padding: 0.75rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: #b3b3b3;
-        }
-
-        .card-problem li:before {
-            content: "−";
-            position: absolute;
-            left: 0;
-            color: #f87171;
-            font-weight: bold;
-        }
-
-        .card-solution li:before {
-            content: "+";
-            position: absolute;
-            left: 0;
-            color: #5ee76f;
-            font-weight: bold;
-        }
-
-        /* ====== FEATURES ====== */
-        .features h2 {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .feature-card {
-            padding: 1.75rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 10px;
-            transition: all 0.25s;
-        }
-
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.12);
-            transform: translateY(-2px);
-        }
-
-        .feature-icon {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            opacity: 0.85;
-        }
-
-        .feature-card h3 {
-            margin-bottom: 0.6rem;
-            font-size: 1.15rem;
-        }
-
-        .feature-card p {
-            font-size: 0.92rem;
-            line-height: 1.55;
-            margin-bottom: 0;
-        }
-
-        /* ====== HOW IT WORKS ====== */
-        .how-it-works {
-            background: rgba(255, 255, 255, 0.015);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .how-it-works h2 {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        .steps-timeline {
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto;
+            grid-template-columns: 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
         }
 
         .step {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 2.5rem;
-            position: relative;
+            background: var(--bg);
+            padding: 22px 24px;
+            display: grid;
+            grid-template-columns: 56px 1fr;
+            gap: 20px;
+            align-items: baseline;
         }
 
-        .step-number {
-            flex-shrink: 0;
-            width: 2.75rem;
-            height: 2.75rem;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .step-num {
+            font-size: 12px;
+            color: var(--dim);
+            letter-spacing: 0.5px;
+        }
+
+        .step-body strong {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 4px;
             font-weight: 600;
-            font-size: 1.05rem;
-            color: #e5e5e5;
         }
 
-        .step:not(:last-child) .step-number::after {
-            content: "";
-            position: absolute;
-            left: 1.375rem;
-            top: 2.75rem;
-            width: 1px;
-            height: 1.75rem;
-            background: rgba(255, 255, 255, 0.1);
+        .step-body span {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.65;
         }
 
-        .step-content h3 {
-            margin-top: 0.25rem;
-            margin-bottom: 0.4rem;
+        @media (max-width: 520px) {
+            .step { grid-template-columns: 40px 1fr; padding: 18px 16px; gap: 12px; }
         }
 
-        .step-content p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        /* ====== FINAL CTA ====== */
-        .final-cta {
-            background: linear-gradient(135deg, rgba(94, 231, 111, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 4rem 2rem;
+        /* ===== Waitlist ===== */
+        .waitlist {
+            padding: 100px 0;
+            border-top: 1px solid var(--border);
             text-align: center;
         }
 
-        .final-cta h2 { margin-bottom: 1rem; }
-
-        .final-cta p {
-            font-size: 1.1rem;
-            color: #999;
-            margin-bottom: 2rem;
+        .waitlist .container {
+            max-width: 560px;
         }
 
-        .final-cta .hero-cta { margin-bottom: 0; }
+        .waitlist h2 {
+            font-size: clamp(1.6rem, 3.6vw, 2.2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 14px;
+        }
 
-        /* ====== FOOTER ====== */
+        .waitlist p.lead {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 36px;
+            line-height: 1.65;
+        }
+
+        form.waitlist-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .field-label {
+            font-size: 11px;
+            color: var(--dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .input, .textarea {
+            width: 100%;
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border-strong);
+            padding: 13px 14px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .15s ease, background .15s ease;
+            font-family: inherit;
+        }
+
+        .input::placeholder, .textarea::placeholder {
+            color: var(--dim);
+        }
+
+        .input:focus, .textarea:focus {
+            border-color: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.02);
+        }
+
+        .textarea {
+            min-height: 96px;
+            resize: vertical;
+            line-height: 1.55;
+        }
+
+        .field-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .submit-row {
+            margin-top: 8px;
+        }
+
+        .submit-row .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px 18px;
+            font-size: 13px;
+        }
+
+        .submit-row .btn[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .honeypot {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .form-message {
+            margin-top: 14px;
+            font-size: 13px;
+            min-height: 20px;
+            color: var(--muted);
+            text-align: left;
+        }
+
+        .form-message.success { color: #c6f6c1; }
+        .form-message.error   { color: #f6b1a8; }
+
+        .form-success {
+            display: none;
+            padding: 28px 22px;
+            border: 1px solid var(--border-strong);
+            text-align: left;
+            background: rgba(255,255,255,0.02);
+        }
+
+        .form-success.show { display: block; }
+        .form-success strong {
+            display: block;
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .form-success span {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* ===== Footer ===== */
         footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding: 2.5rem 2rem;
-            color: #666;
-            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            font-size: 12px;
+            color: var(--dim);
         }
 
         footer .container {
@@ -1234,498 +589,231 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 12px;
         }
 
-        footer a {
-            color: #888;
-            text-decoration: none;
-            transition: color 0.15s;
-            margin-left: 1.25rem;
+        footer a:hover { color: var(--text); }
+
+        /* ===== Reduced motion ===== */
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+            html { scroll-behavior: auto; }
         }
 
-        footer a:hover { color: #e5e5e5; }
-
-        @media (max-width: 540px) {
-            footer .container { flex-direction: column; text-align: center; }
-            footer a { margin: 0 0.6rem; }
+        /* iPhone safety */
+        @media (max-width: 400px) {
+            .container { padding: 0 18px; }
+            section.block { padding: 70px 0; }
+            .hero { padding: 60px 0 40px; }
+            .eyebrow { margin-bottom: 40px; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
-        <div class="container">
-            <div class="logo">
-                AgentHub
-            </div>
-            <nav>
-                <a onclick="scrollToSection('product')">Product</a>
-                <a onclick="scrollToSection('features')">Features</a>
-                <a onclick="scrollToSection('how-it-works')">How it works</a>
-                <a onclick="scrollToSection('waitlist')">Waitlist</a>
+        <div class="container header-inner">
+            <a href="#" class="brand"><span class="brand-dot"></span>AgentHub</a>
+            <nav class="primary">
+                <a href="#product">Product</a>
+                <a href="#features">Features</a>
+                <a href="#how">How it works</a>
+                <a href="#waitlist">Waitlist</a>
             </nav>
+            <a href="#waitlist" class="header-cta">Request access</a>
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-inner">
-            <div class="hero-text">
-                <h1>Build, run, and ship<br>AI agents in the cloud</h1>
-                <p class="hero-subtitle">A collaborative workspace for AI agent projects. Run agents in the cloud, track every version, review every output — together with your team.</p>
+    <main>
+        <!-- HERO -->
+        <section class="hero container" id="product">
+            <span class="eyebrow">Private beta opening soon →</span>
 
-                <div class="hero-cta">
-                    <input
-                        type="email"
-                        class="email-input"
-                        id="hero-email"
-                        placeholder="you@company.com"
-                        aria-label="Email address"
-                    >
-                    <button class="btn-submit" onclick="submitWaitlist('hero')">Join waitlist</button>
-                </div>
-                <div class="form-message" id="hero-message"></div>
+            <span class="brand-mark" aria-label="AgentHub">AGENTHUB</span>
 
-                <div class="cta-secondary-row">
-                    <a class="cta-secondary" onclick="scrollToSection('how-it-works')">See how it works →</a>
-                </div>
+            <h1>The cloud workspace for serious AI agent builders.</h1>
+            <p class="subhead">
+                Build, run, version, review, and ship production AI agents with your team — from one shared workspace.
+            </p>
+
+            <div class="cta-row">
+                <a href="#waitlist" class="btn btn-primary">Request early access</a>
+                <a href="#how" class="btn btn-secondary">See how it works →</a>
             </div>
 
-            <!-- Product Mockup -->
-            <div class="hero-visual">
-                <!-- Mac titlebar -->
-                <div class="mac-titlebar">
-                    <div class="mac-traffic-lights">
-                        <div class="traffic-light traffic-red"></div>
-                        <div class="traffic-light traffic-yellow"></div>
-                        <div class="traffic-light traffic-green"></div>
+            <div class="exclusivity">We're onboarding a small number of agent teams first.</div>
+        </section>
+
+        <!-- TERMINAL PREVIEW -->
+        <section class="preview-wrap container" id="features">
+            <div class="terminal" role="img" aria-label="AgentHub workspace preview">
+                <div class="terminal-bar">
+                    <div class="dots">
+                        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
                     </div>
-                    <div class="mac-title">agenthub.cloud — acme / research-agent</div>
+                    <div class="path">agenthub://workspace/research-agent</div>
+                    <div style="width:48px"></div>
                 </div>
-
-                <!-- App top bar -->
-                <div class="app-topbar">
-                    <div class="topbar-brand">
-                        <div class="topbar-brand-icon">A</div>
-                        <span>AgentHub</span>
-                    </div>
-                    <div class="topbar-breadcrumb">
-                        <span class="topbar-breadcrumb-sep">/</span>
-                        <span>acme</span>
-                        <span class="topbar-breadcrumb-sep">/</span>
-                        <span class="topbar-breadcrumb-current">research-agent</span>
-                    </div>
-                    <div class="topbar-tabs">
-                        <div class="topbar-tab">Overview</div>
-                        <div class="topbar-tab active">Runs</div>
-                        <div class="topbar-tab">Versions</div>
-                        <div class="topbar-tab">Logs</div>
-                        <div class="topbar-tab">Settings</div>
-                    </div>
-                    <div class="topbar-right">
-                        <div class="topbar-status">
-                            <span class="status-dot"></span>
-                            Running
-                        </div>
-                        <div class="topbar-avatar">T</div>
-                    </div>
+                <div class="terminal-body">
+                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub run research-agent --version 14</span></div>
+                    <div class="term-out"><span class="term-tag run">run</span>spawning agent · 4 tools · 2 sub-agents</div>
+                    <div class="term-out"><span class="term-tag ok">ok</span>step 01 · fetch_sources · 412 tokens · 1.4s</div>
+                    <div class="term-out"><span class="term-tag ok">ok</span>step 02 · summarize · 1,203 tokens · 2.1s</div>
+                    <div class="term-out"><span class="term-tag ok">ok</span>step 03 · cross_reference · 980 tokens · 1.8s</div>
+                    <div class="term-out"><span class="term-tag ok">ok</span>review queued → @maya</div>
+                    <div class="term-spacer"></div>
+                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub diff v13 v14</span></div>
+                    <div class="term-out">+ added retrieval fallback for empty results</div>
+                    <div class="term-out">+ tightened system prompt (-184 tokens)</div>
+                    <div class="term-out">~ swapped tool: web_search → indexed_search</div>
+                    <div class="term-spacer"></div>
+                    <div class="term-line"><span class="term-prompt">$</span><span class="term-cmd">agenthub share research-agent --team eng<span class="term-cursor"></span></span></div>
                 </div>
+            </div>
+        </section>
 
-                <!-- Body: 3-column workspace -->
-                <div class="mockup-body">
-                    <!-- Sidebar -->
-                    <div class="mockup-sidebar">
-                        <div class="sidebar-workspace-switch">
-                            <div class="workspace-avatar"></div>
-                            <div class="workspace-name">Acme Inc</div>
-                            <span class="workspace-chevron">⌄</span>
-                        </div>
+        <!-- WHY -->
+        <section class="block">
+            <div class="container">
+                <span class="section-label">Why AgentHub exists</span>
+                <h2 class="section-h">Agents are leaving the lab. The tooling hasn't caught up.</h2>
+                <p class="section-lead">
+                    AI agents are moving from experiments to production, but the workflow around them is still messy.
+                </p>
+                <p class="section-lead">
+                    Runs, logs, versions, prompts, tools, reviews, and team collaboration are scattered across different places.
+                </p>
+                <p class="section-lead">
+                    AgentHub brings the agent development workflow into one shared cloud workspace.
+                </p>
+            </div>
+        </section>
 
-                        <div class="sidebar-section">
-                            <div class="sidebar-label">Projects</div>
-                            <div class="sidebar-item active">
-                                <span class="sidebar-dot running"></span>
-                                Research Agent
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot success"></span>
-                                Support Bot
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot idle"></span>
-                                Data Pipeline
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot idle"></span>
-                                Content Reviewer
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot failed"></span>
-                                Code Auditor
-                            </div>
-                        </div>
+        <!-- BUILT FOR -->
+        <section class="block">
+            <div class="container">
+                <span class="section-label">Built for teams working on real agents</span>
+                <h2 class="section-h">From a single research bot to multi-agent production systems.</h2>
+                <div class="agent-grid">
+                    <div>Research agents</div>
+                    <div>Support agents</div>
+                    <div>Code agents</div>
+                    <div>Data pipeline agents</div>
+                    <div>Internal automation agents</div>
+                    <div>Multi-agent workflows</div>
+                </div>
+            </div>
+        </section>
 
-                        <div class="sidebar-section">
-                            <div class="sidebar-label">Recent runs</div>
-                            <div class="sidebar-item active">
-                                <span class="sidebar-dot running"></span>
-                                #2847
-                                <span class="sidebar-meta">2.4s</span>
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot success"></span>
-                                #2846
-                                <span class="sidebar-meta">1.4s</span>
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot success"></span>
-                                #2845
-                                <span class="sidebar-meta">2.1s</span>
-                            </div>
-                            <div class="sidebar-item">
-                                <span class="sidebar-dot failed"></span>
-                                #2844
-                                <span class="sidebar-meta">0.3s</span>
-                            </div>
+        <!-- HOW IT WORKS -->
+        <section class="block" id="how">
+            <div class="container">
+                <span class="section-label">How it works</span>
+                <h2 class="section-h">A simple loop, from prompt to production.</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-num">01</div>
+                        <div class="step-body">
+                            <strong>Create a project</strong>
+                            <span>Spin up a workspace for your agent. One place for prompts, tools, configs, and runs.</span>
                         </div>
                     </div>
-
-                    <!-- Center: Conversation -->
-                    <div class="mockup-center">
-                        <div class="center-header">
-                            <div class="center-title-row">
-                                <div class="center-title">Run #2847</div>
-                                <div class="center-status-badge">
-                                    <span class="status-dot"></span>
-                                    Running
-                                </div>
-                            </div>
-                            <div class="center-meta">
-                                <div class="center-meta-item"><span class="center-meta-label">Started:</span> 14:25:08 UTC</div>
-                                <div class="center-meta-item"><span class="center-meta-label">Version:</span> v2.4</div>
-                                <div class="center-meta-item"><span class="center-meta-label">Model:</span> claude-4</div>
-                                <div class="center-meta-item"><span class="center-meta-label">Trigger:</span> manual</div>
-                            </div>
-                        </div>
-
-                        <div class="center-tabs">
-                            <div class="center-tab active">Conversation</div>
-                            <div class="center-tab">Tools</div>
-                            <div class="center-tab">Logs</div>
-                            <div class="center-tab">Output</div>
-                        </div>
-
-                        <div class="center-content">
-                            <div class="message-block">
-                                <div class="message-role-badge role-user">U</div>
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <div class="message-name">User</div>
-                                        <div class="message-time">14:25:08</div>
-                                    </div>
-                                    <div class="message-text">Compare CAC and LTV for top-tier SaaS companies in the last 4 quarters.</div>
-                                </div>
-                            </div>
-
-                            <div class="message-block">
-                                <div class="message-role-badge role-agent">AI</div>
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <div class="message-name">research-agent</div>
-                                        <div class="message-time">14:25:09</div>
-                                    </div>
-                                    <div class="message-text">Pulling filings from the last 4 quarters, segmenting by ARR tier, computing unit economics.</div>
-                                </div>
-                            </div>
-
-                            <div class="message-block">
-                                <div class="message-role-badge role-tool">T</div>
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <div class="message-name">search_filings</div>
-                                        <div class="message-time">14:25:10</div>
-                                    </div>
-<div class="message-code">{
-  <span class="code-key">"query"</span>: <span class="code-string">"SaaS CAC LTV Q1–Q4 2025"</span><span class="code-punct">,</span>
-  <span class="code-key">"sources"</span>: [<span class="code-string">"10-K"</span><span class="code-punct">,</span> <span class="code-string">"10-Q"</span>]<span class="code-punct">,</span>
-  <span class="code-key">"limit"</span>: <span class="code-num">24</span>
-}</div>
-                                    <div class="tool-result">
-                                        <div class="tool-result-header">✓ Result · 247 documents</div>
-                                        Indexed across 15 datasets · 4.2 MB · 1.21s
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="message-block">
-                                <div class="message-role-badge role-agent">AI</div>
-                                <div class="message-content">
-                                    <div class="message-header">
-                                        <div class="message-name">research-agent</div>
-                                        <div class="message-time">14:25:11</div>
-                                        <span class="typing-indicator">
-                                            <span></span><span></span><span></span>
-                                        </span>
-                                    </div>
-                                    <div class="message-text">Synthesizing — median LTV:CAC ratio of <strong>2.3x</strong> at the top quartile. Correlation coefficient <strong>r = 0.78</strong>.</div>
-                                </div>
-                            </div>
+                    <div class="step">
+                        <div class="step-num">02</div>
+                        <div class="step-body">
+                            <strong>Configure agents and tools</strong>
+                            <span>Wire up the model, tools, sub-agents, and guardrails. Version-controlled by default.</span>
                         </div>
                     </div>
-
-                    <!-- Right: Metadata, versions, review, activity -->
-                    <div class="mockup-right">
-                        <div class="right-card">
-                            <div class="right-card-header">
-                                <div class="right-label">Run info</div>
-                                <div class="right-action">Details</div>
-                            </div>
-                            <div class="metadata-grid">
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Run ID</span>
-                                    <span class="metadata-value">#2847</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Status</span>
-                                    <span class="metadata-value success">Running</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Elapsed</span>
-                                    <span class="metadata-value">2.4s</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Tokens</span>
-                                    <span class="metadata-value">2,156</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Cost</span>
-                                    <span class="metadata-value">$0.014</span>
-                                </div>
-                                <div class="metadata-item">
-                                    <span class="metadata-label">Tools</span>
-                                    <span class="metadata-value">3 / 5</span>
-                                </div>
-                            </div>
+                    <div class="step">
+                        <div class="step-num">03</div>
+                        <div class="step-body">
+                            <strong>Run agents in the cloud</strong>
+                            <span>No more "works on my laptop." Reproducible runs with logs, traces, and metrics.</span>
                         </div>
-
-                        <div class="right-card">
-                            <div class="right-card-header">
-                                <div class="right-label">Versions</div>
-                                <div class="right-action">Compare</div>
-                            </div>
-                            <div class="version-row">
-                                <div class="version-tag">v2.4</div>
-                                <span class="version-badge active">Active</span>
-                            </div>
-                            <div class="version-row">
-                                <div class="version-tag">v2.5-rc</div>
-                                <span class="version-badge draft">Draft</span>
-                            </div>
-                            <div class="version-row">
-                                <div class="version-tag">v2.3</div>
-                                <span class="version-meta">3d ago</span>
-                            </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">04</div>
+                        <div class="step-body">
+                            <strong>Review runs, logs, and versions</strong>
+                            <span>Diff prompts and outputs between versions. Approve, comment, or roll back like code.</span>
                         </div>
-
-                        <div class="right-card">
-                            <div class="right-card-header">
-                                <div class="right-label">Review</div>
-                            </div>
-                            <div class="review-status">
-                                <div class="review-avatar">SC</div>
-                                <div class="review-text"><strong>Sarah Chen</strong> requested review of v2.5-rc</div>
-                            </div>
-                            <div class="review-actions">
-                                <div class="review-btn primary">Approve</div>
-                                <div class="review-btn secondary">Comment</div>
-                            </div>
-                        </div>
-
-                        <div class="right-card">
-                            <div class="right-card-header">
-                                <div class="right-label">Activity</div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-dot"></span>
-                                <div class="activity-content">
-                                    <div class="activity-text"><strong>T. Elias</strong> deployed v2.4 to prod</div>
-                                    <div class="activity-time">2m ago</div>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-dot"></span>
-                                <div class="activity-content">
-                                    <div class="activity-text"><strong>S. Chen</strong> updated tool config</div>
-                                    <div class="activity-time">14m ago</div>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-dot"></span>
-                                <div class="activity-content">
-                                    <div class="activity-text"><strong>M. Park</strong> merged PR #128</div>
-                                    <div class="activity-time">1h ago</div>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-num">05</div>
+                        <div class="step-body">
+                            <strong>Share or iterate with your team</strong>
+                            <span>Fork an agent, hand off a run, or ship to production — without leaving the workspace.</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Problem & Solution -->
-    <section class="problem-solution" id="product">
-        <h2>The challenge and the solution</h2>
-        <div class="grid-2">
-            <div class="card-problem">
-                <h3>Current reality</h3>
-                <ul>
-                    <li>Agent tools are scattered across different platforms</li>
-                    <li>Collaboration requires manual handoff between teams</li>
-                    <li>Version history and run logs are hard to track</li>
-                    <li>Local execution limits scalability</li>
-                    <li>No shared workspace for agent projects</li>
-                </ul>
-            </div>
-            <div class="card-solution">
-                <h3>AgentHub approach</h3>
-                <ul>
-                    <li>One unified workspace for all agent work</li>
-                    <li>Real-time collaboration on agent configurations</li>
-                    <li>Complete run history, versioning, and logs</li>
-                    <li>Cloud execution with reliable infrastructure</li>
-                    <li>Share projects and runs across your team</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        <!-- WAITLIST -->
+        <section class="waitlist" id="waitlist">
+            <div class="container">
+                <span class="section-label">Waitlist</span>
+                <h2>Request early access.</h2>
+                <p class="lead">We're onboarding a small group of agent teams first. Tell us what you're building and we'll be in touch when access opens.</p>
 
-    <!-- Features -->
-    <section class="features" id="features">
-        <h2>Core features</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚙️</div>
-                <h3>Project workspace</h3>
-                <p>Organize agents, tools, and configurations in one place. Everything your team needs is accessible and version-controlled.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">☁️</div>
-                <h3>Cloud execution</h3>
-                <p>Run agents reliably in the cloud. No local setup required. Scale from one agent to hundreds seamlessly.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3>Runs and logs</h3>
-                <p>Every agent run is logged and searchable. Debug faster with detailed execution traces and performance metrics.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔄</div>
-                <h3>Version management</h3>
-                <p>Track every change to your agents. Roll back to any previous version instantly. Compare configurations side-by-side.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h3>Collaboration</h3>
-                <p>Share projects with your team. Review runs together. Iterate on agent behavior in real-time without conflicts.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔗</div>
-                <h3>Integrations</h3>
-                <p>Connect to your existing tools. Trigger agents from your workflow. Capture results in your data pipelines.</p>
-            </div>
-        </div>
-    </section>
+                <form class="waitlist-form" id="lead-form" novalidate>
+                    <div class="field-group">
+                        <label class="field-label" for="lead-email">Email address</label>
+                        <input
+                            class="input"
+                            id="lead-email"
+                            name="email"
+                            type="email"
+                            placeholder="you@company.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+                    <div class="field-group">
+                        <label class="field-label" for="lead-building">What are you building with AI agents?</label>
+                        <textarea
+                            class="textarea"
+                            id="lead-building"
+                            name="building"
+                            placeholder="A research agent for our analyst team, a multi-agent support workflow, etc."
+                        ></textarea>
+                    </div>
 
-    <!-- How It Works -->
-    <section class="how-it-works" id="how-it-works">
-        <h2>How it works</h2>
-        <div class="steps-timeline">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h3>Create a project</h3>
-                    <p>Set up a new agent project in AgentHub. Invite team members and configure your workspace settings.</p>
+                    <input type="text" class="honeypot" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+                    <div class="submit-row">
+                        <button type="submit" class="btn btn-primary" id="lead-submit">Request early access</button>
+                    </div>
+                </form>
+
+                <div class="form-message" id="lead-message" aria-live="polite"></div>
+
+                <div class="form-success" id="lead-success" aria-live="polite">
+                    <strong>You're on the list.</strong>
+                    <span>We'll reach out when early access opens.</span>
                 </div>
             </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h3>Define agents and tools</h3>
-                    <p>Specify your agents and the tools they can use. Configure prompts, parameters, and behavior rules.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h3>Run in the cloud</h3>
-                    <p>Execute your agents with a single click. AgentHub handles infrastructure, logging, and resource management.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h3>Review and analyze</h3>
-                    <p>Inspect run results, logs, and performance data. Understand what your agents did and why.</p>
-                </div>
-            </div>
-            <div class="step">
-                <div class="step-number">5</div>
-                <div class="step-content">
-                    <h3>Iterate and share</h3>
-                    <p>Update your agents, save new versions, and share them with your team. Collaborate without friction.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Final CTA -->
-    <section class="final-cta" id="waitlist">
-        <h2>Ready to build smarter AI agents?</h2>
-        <p>Tell us a little about what you're building. We'll be in touch with early access.</p>
-        <form class="hero-cta" id="lead-form" novalidate>
-            <input
-                type="email"
-                class="email-input"
-                id="lead-email"
-                name="email"
-                placeholder="you@company.com"
-                autocomplete="email"
-                aria-label="Email address"
-                required
-            >
-            <input type="text" class="honeypot" id="lead-company-website" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <button type="submit" class="btn-submit" id="lead-submit">Get access</button>
-        </form>
-        <div class="form-message" id="lead-message-output"></div>
-    </section>
-
-    <!-- Footer -->
     <footer>
         <div class="container">
-            <div>&copy; 2026 AgentHub. Building the future of collaborative AI.</div>
-            <div>
-                <a href="#" onclick="event.preventDefault()">Privacy</a>
-                <a href="#" onclick="event.preventDefault()">Terms</a>
-                <a href="mailto:hello@agenthub.cloud">Contact</a>
-            </div>
+            <span>© 2026 AgentHub. All rights reserved.</span>
+            <span>agenthub://private-beta</span>
         </div>
     </footer>
 
     <script>
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
         const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        function setMessage(el, text, kind) {
-            el.textContent = text;
-            el.className = `form-message${kind ? ' ' + kind : ''}`;
+        const form = document.getElementById('lead-form');
+        const msgEl = document.getElementById('lead-message');
+        const successEl = document.getElementById('lead-success');
+        const submitBtn = document.getElementById('lead-submit');
+
+        function setMessage(text, kind) {
+            msgEl.textContent = text || '';
+            msgEl.className = `form-message${kind ? ' ' + kind : ''}`;
         }
 
         async function postLead(payload) {
@@ -1735,76 +823,39 @@
                 body: JSON.stringify(payload),
             });
             let data = {};
-            try { data = await res.json(); } catch (_) { /* ignore */ }
-            if (!res.ok) {
-                throw new Error(data.error || `Request failed (${res.status})`);
-            }
+            try { data = await res.json(); } catch (_) {}
+            if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
             return data;
         }
 
-        async function submitWaitlist(source) {
-            const emailInput = document.getElementById(`${source}-email`);
-            const messageEl = document.getElementById(`${source}-message`);
-            const btn = emailInput?.parentElement?.querySelector('.btn-submit');
-            const email = emailInput.value.trim();
-
-            setMessage(messageEl, '', '');
-
-            if (!email) return setMessage(messageEl, 'Please enter your email', 'error');
-            if (!EMAIL_REGEX.test(email)) return setMessage(messageEl, 'Please enter a valid email', 'error');
-
-            const originalLabel = btn?.textContent;
-            if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
-            setMessage(messageEl, 'Submitting…', '');
-
-            try {
-                await postLead({ email });
-                setMessage(messageEl, '✓ You are on the list. We will be in touch soon.', 'success');
-                emailInput.value = '';
-            } catch (err) {
-                setMessage(messageEl, err.message || 'Something went wrong. Please try again.', 'error');
-            } finally {
-                if (btn) { btn.disabled = false; btn.textContent = originalLabel; }
-            }
-        }
-
-        async function submitLeadForm(e) {
+        form?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const form = e.currentTarget;
-            const messageEl = document.getElementById('lead-message-output');
-            const submitBtn = document.getElementById('lead-submit');
-
             const email = form.email.value.trim();
+            const building = form.building.value.trim();
             const honeypot = form.company_website.value.trim();
 
-            setMessage(messageEl, '', '');
+            setMessage('');
 
-            if (!email) return setMessage(messageEl, 'Please enter your email', 'error');
-            if (!EMAIL_REGEX.test(email)) return setMessage(messageEl, 'Please enter a valid email', 'error');
-            if (honeypot) return; // bot — drop silently
+            if (!email) return setMessage('Please enter your email.', 'error');
+            if (!EMAIL_REGEX.test(email)) return setMessage('Please enter a valid email.', 'error');
+            if (honeypot) return;
 
             const originalLabel = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Submitting…';
-            setMessage(messageEl, 'Submitting…', '');
 
             try {
-                await postLead({ email });
-                setMessage(messageEl, '✓ Thanks — you are on the list. We will be in touch shortly.', 'success');
-                form.reset();
+                await postLead({ email, message: building, source: 'landing-page' });
+                form.style.display = 'none';
+                successEl.classList.add('show');
+                setMessage('');
             } catch (err) {
-                setMessage(messageEl, err.message || 'Something went wrong. Please try again.', 'error');
+                setMessage(err.message || 'Something went wrong. Please try again.', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalLabel;
             }
-        }
-
-        document.getElementById('hero-email')?.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); submitWaitlist('hero'); }
         });
-
-        document.getElementById('lead-form')?.addEventListener('submit', submitLeadForm);
     </script>
 </body>
 </html>
