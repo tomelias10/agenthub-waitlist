@@ -1,0 +1,134 @@
+.pricing {
+  border-top: 1px solid var(--line);
+}
+
+.pricing__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.price {
+  display: flex;
+  flex-direction: column;
+  padding: 38px 32px;
+  background: var(--bg-1);
+}
+
+.price + .price {
+  border-left: 1px solid var(--line);
+}
+
+/* Featured — subtle signal wash + lift */
+.price--featured {
+  position: relative;
+  background:
+    radial-gradient(
+      120% 80% at 50% 0%,
+      rgba(247, 131, 63, 0.08),
+      transparent 60%
+    ),
+    var(--bg-2);
+}
+
+.price__badge {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--signal);
+  border: 1px solid var(--signal-line);
+  background: var(--signal-soft);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.price__name {
+  font-size: 18px;
+  letter-spacing: -0.01em;
+}
+
+.price__tag {
+  margin-top: 7px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+
+.price__amount {
+  margin-top: 28px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.price__monthly {
+  font-size: 42px;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.price__per {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+
+.price__setup {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.price__cta {
+  margin-top: 26px;
+  width: 100%;
+}
+
+.price--featured .price__cta.btn-primary {
+  background: var(--signal);
+  color: #1c1106;
+}
+.price--featured .price__cta.btn-primary:hover {
+  box-shadow: 0 12px 30px -10px rgba(247, 131, 63, 0.5);
+}
+
+.price__features {
+  list-style: none;
+  margin-top: 28px;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.price__features li {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text-muted);
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+.price__features li:last-child {
+  border-bottom: none;
+}
+
+.pricing__fine {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+@media (max-width: 900px) {
+  .pricing__grid {
+    grid-template-columns: 1fr;
+  }
+  .price + .price {
+    border-left: none;
+    border-top: 1px solid var(--line);
+  }
+}

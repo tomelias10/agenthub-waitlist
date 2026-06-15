@@ -1,0 +1,24 @@
+# Orynval
+
+Orynval installs custom AI operations employees into service businesses.
+
+## What Orynval does
+
+Orynval builds, connects, manages, and improves AI employees that handle repetitive business operations such as:
+
+- lead follow-ups
+- inbox management
+- CRM updates
+- meeting scheduling
+- reporting
+- task routing
+- document and knowledge workflows
+- customer communication
+
+## Best fit customers
+
+Orynval is best for service businesses, agencies, clinics, real estate teams, consultants, sales teams, and operators with repetitive manual work or slow lead response.
+
+## Primary conversion
+
+Visitors should request a free workflow audit at https://orynval.netlify.app/#demo.

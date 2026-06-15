@@ -1,0 +1,18 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#08080A"/>
+  <circle cx="980" cy="90" r="260" fill="#9DFF70" opacity="0.12"/>
+  <circle cx="160" cy="560" r="240" fill="#7C5CFF" opacity="0.10"/>
+  <rect x="78" y="76" width="1044" height="478" rx="36" fill="#111217" stroke="#2B2D35"/>
+  <text x="120" y="170" fill="#9DFF70" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Orynval</text>
+  <text x="120" y="270" fill="white" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="800">Your Custom AI</text>
+  <text x="120" y="350" fill="white" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="800">Operations Employee</text>
+  <text x="120" y="430" fill="#B8BBC7" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="500">Done-for-you AI agents for follow-ups, inbox, CRM,</text>
+  <text x="120" y="470" fill="#B8BBC7" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="500">scheduling, reporting and daily business operations.</text>
+  <rect x="780" y="170" width="270" height="300" rx="24" fill="#181A22" stroke="#313442"/>
+  <rect x="815" y="215" width="200" height="18" rx="9" fill="#9DFF70" opacity="0.9"/>
+  <rect x="815" y="262" width="150" height="14" rx="7" fill="#D8DAE4" opacity="0.5"/>
+  <rect x="815" y="300" width="180" height="14" rx="7" fill="#D8DAE4" opacity="0.5"/>
+  <rect x="815" y="338" width="128" height="14" rx="7" fill="#D8DAE4" opacity="0.5"/>
+  <rect x="815" y="390" width="160" height="46" rx="23" fill="#9DFF70"/>
+  <text x="842" y="421" fill="#08080A" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Audit</text>
+</svg>

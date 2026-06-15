@@ -1,0 +1,270 @@
+/* ============================================================
+   Orynval — dark enterprise design system
+   Reference altitude: Apple / Linear / Stripe / Palantir.
+   Near-black canvas, monochrome type, one restrained signal
+   green for "live / done" states. Built on space, not cards.
+   ============================================================ */
+
+:root {
+  /* Surfaces */
+  --bg: #08080a;
+  --bg-1: #0d0d10;
+  --bg-2: #131317;
+  --bg-3: #1a1a20;
+  --bg-glass: rgba(18, 18, 22, 0.7);
+
+  /* Lines */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-2: rgba(255, 255, 255, 0.14);
+  --line-3: rgba(255, 255, 255, 0.22);
+
+  /* Text */
+  --text: #f5f5f7;
+  --text-muted: #9b9ba6;
+  --text-dim: #62626d;
+
+  /* Signal — used only for live / done / active states */
+  --signal: #f7833f;
+  --signal-dim: #d0692a;
+  --signal-soft: rgba(247, 131, 63, 0.12);
+  --signal-line: rgba(247, 131, 63, 0.32);
+
+  /* Warm accent — brand emphasis (labels, key words). Used sparingly. */
+  --accent: #f7833f;
+  --accent-soft: rgba(247, 131, 63, 0.14);
+  --accent-line: rgba(247, 131, 63, 0.4);
+
+  /* Radii */
+  --r-sm: 8px;
+  --r: 12px;
+  --r-lg: 18px;
+  --r-xl: 26px;
+
+  --maxw: 1200px;
+  --maxw-text: 760px;
+
+  --sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  color-scheme: dark;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100svh;
+  overflow-x: hidden;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+img,
+video {
+  max-width: 100%;
+  display: block;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  line-height: 1.05;
+}
+
+::selection {
+  background: var(--signal-soft);
+  color: #fff;
+}
+
+/* ---------- Layout primitives ---------- */
+
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding-inline: 32px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-inline: 22px;
+  }
+}
+
+.section {
+  position: relative;
+  padding-block: 128px;
+}
+
+/* Anchored sections clear the fixed nav when scrolled to */
+[id] {
+  scroll-margin-top: 88px;
+}
+
+@media (max-width: 900px) {
+  .section {
+    padding-block: 84px;
+  }
+}
+
+/* Narrow measure so copy never stretches edge to edge */
+.measure {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* Hairline divider that separates major sections */
+.section--line {
+  border-top: 1px solid var(--line);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.section-head {
+  max-width: 640px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.section-head .eyebrow {
+  margin-bottom: 20px;
+}
+
+.section-head h2 {
+  font-size: clamp(26px, 3.4vw, 40px);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+
+.section-head p {
+  margin-top: 18px;
+  font-size: 16.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  font-size: 15px;
+  font-weight: 560;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0 22px;
+  height: 48px;
+  white-space: nowrap;
+  transition:
+    transform 0.16s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+/* Primary — Apple/Linear white pill */
+.btn-primary {
+  background: #fff;
+  color: #08080a;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px -10px rgba(247, 131, 63, 0.45);
+}
+
+/* Ghost — hairline on dark */
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+  border-color: var(--line-2);
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--line-3);
+  transform: translateY(-1px);
+}
+
+.btn-lg {
+  height: 54px;
+  font-size: 16px;
+  padding: 0 28px;
+}
+
+/* ---------- Reveal on scroll ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
