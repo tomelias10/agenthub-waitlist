@@ -32,4 +32,22 @@
   <h2>Why not just use another AI tool?</h2>
   <p class="muted">Generic AI tools wait for prompts. Orynval is implemented into your actual workflow, connected to your tools, trained on your business context, and managed over time.</p>
   <a class="cta" href="/#demo">Map my first AI employee</a>
-</main></body></html>
+</main>
+<script>
+(function(){
+  if(navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;
+  function send(type,payload){
+    try{
+      var body=JSON.stringify(Object.assign({type:type,path:location.pathname,title:document.title,referrer:document.referrer||''},payload||{}));
+      if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})))return;
+      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){});
+    }catch(e){}
+  }
+  send('pageview',{meta:{section:'static_seo_page'}});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="#demo"],a[href="/"]');
+    if(a)send('cta_click',{name:'static_page_cta',meta:{placement:'static_seo_page',label:(a.textContent||'').trim().slice(0,80)}});
+  },{capture:true});
+})();
+</script>
+</body></html>

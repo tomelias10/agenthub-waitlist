@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './DemoForm.css'
+import { track } from '../lib/analytics'
 
 const INDUSTRIES = [
   'Sales / SaaS',
@@ -20,6 +21,7 @@ const POINTS = [
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function DemoForm() {
+  const [started, setStarted] = useState(false)
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -31,8 +33,13 @@ export default function DemoForm() {
   const [status, setStatus] = useState('idle') // idle | error | submitting | success
   const [error, setError] = useState('')
 
-  const update = (key) => (e) =>
+  const update = (key) => (e) => {
+    if (!started && key !== 'company_website') {
+      setStarted(true)
+      track('form_start', { form: 'free_workflow_audit', meta: { placement: 'demo_form' } })
+    }
     setForm((f) => ({ ...f, [key]: e.target.value }))
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -40,21 +47,25 @@ export default function DemoForm() {
     if (!form.name.trim()) {
       setStatus('error')
       setError('Please enter your name.')
+      track('form_error', { form: 'free_workflow_audit', meta: { result: 'missing_name' } })
       return
     }
     if (!EMAIL_RE.test(form.email)) {
       setStatus('error')
       setError('Please enter a valid work email.')
+      track('form_error', { form: 'free_workflow_audit', meta: { result: 'invalid_email' } })
       return
     }
     if (!form.company.trim()) {
       setStatus('error')
       setError('Please add your company name.')
+      track('form_error', { form: 'free_workflow_audit', meta: { result: 'missing_company' } })
       return
     }
 
     setStatus('submitting')
     setError('')
+    track('form_submit', { form: 'free_workflow_audit', meta: { placement: 'demo_form' } })
 
     try {
       // Posts to the Netlify function, which creates a lead on monday.com.
@@ -66,9 +77,11 @@ export default function DemoForm() {
       })
       if (!res.ok) throw new Error('Request failed')
       setStatus('success')
+      track('form_success', { form: 'free_workflow_audit', meta: { result: 'monday_created' } })
     } catch {
       setStatus('error')
       setError('Something went wrong. Please try again or email us directly.')
+      track('form_error', { form: 'free_workflow_audit', meta: { result: 'network_or_server' } })
     }
   }
 

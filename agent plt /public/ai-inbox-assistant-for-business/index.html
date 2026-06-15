@@ -32,4 +32,22 @@
   <h2>Managed, not self-serve</h2>
   <p class="muted">You do not need to build prompts or manage automations. Orynval maps the workflow, connects the tools, tests behavior and improves the AI employee over time.</p>
   <a class="cta" href="/#demo">Audit my inbox workflow</a>
-</main></body></html>
+</main>
+<script>
+(function(){
+  if(navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;
+  function send(type,payload){
+    try{
+      var body=JSON.stringify(Object.assign({type:type,path:location.pathname,title:document.title,referrer:document.referrer||''},payload||{}));
+      if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})))return;
+      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){});
+    }catch(e){}
+  }
+  send('pageview',{meta:{section:'static_seo_page'}});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="#demo"],a[href="/"]');
+    if(a)send('cta_click',{name:'static_page_cta',meta:{placement:'static_seo_page',label:(a.textContent||'').trim().slice(0,80)}});
+  },{capture:true});
+})();
+</script>
+</body></html>

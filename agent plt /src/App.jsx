@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+import { trackPageView } from './lib/analytics'
 import { useReveal } from './hooks/useReveal'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
@@ -14,6 +16,10 @@ import PrivacyModal from './components/PrivacyModal'
 
 function App() {
   useReveal()
+
+  useEffect(() => {
+    trackPageView({ section: 'app_load' })
+  }, [])
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import './Nav.css'
+import { trackCta } from '../lib/analytics'
 
 const LINKS = [
   { href: '#what', label: 'Capabilities' },
@@ -36,7 +37,11 @@ export default function Nav() {
         </nav>
 
         <div className="nav__cta">
-          <a href="#demo" className="btn btn-primary nav__book">
+          <a
+            href="#demo"
+            className="btn btn-primary nav__book"
+            onClick={() => trackCta('nav_free_audit', { placement: 'nav' })}
+          >
             Free Audit
           </a>
           <button
@@ -61,7 +66,10 @@ export default function Nav() {
           <a
             href="#demo"
             className="btn btn-primary"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              trackCta('mobile_nav_free_audit', { placement: 'mobile_nav' })
+              setOpen(false)
+            }}
           >
             Free Audit
           </a>

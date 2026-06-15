@@ -1,4 +1,5 @@
 import './Pricing.css'
+import { trackCta } from '../lib/analytics'
 
 const PLANS = [
   {
@@ -90,6 +91,12 @@ export default function Pricing() {
               <a
                 href="#demo"
                 className={`btn ${p.featured ? 'btn-primary' : 'btn-ghost'} price__cta`}
+                onClick={() =>
+                  trackCta('pricing_plan_cta', {
+                    placement: 'pricing',
+                    plan: p.name,
+                  })
+                }
               >
                 {p.cta}
               </a>

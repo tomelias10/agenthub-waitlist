@@ -27,18 +27,16 @@ function loadApollo() {
  * stored in localStorage so the banner doesn't reappear on every visit.
  */
 export default function CookieConsent() {
-  const [consent, setConsent] = useState(undefined) // undefined = not read yet
+  const [consent, setConsent] = useState(() => localStorage.getItem(CONSENT_KEY))
 
   useEffect(() => {
-    const stored = localStorage.getItem(CONSENT_KEY)
-    setConsent(stored)
     // Opt-out model: load Apollo for everyone except visitors who declined.
-    if (stored !== 'declined') loadApollo()
+    if (consent !== 'declined') loadApollo()
 
     const reopen = () => setConsent(null)
     window.addEventListener(OPEN_COOKIE_SETTINGS, reopen)
     return () => window.removeEventListener(OPEN_COOKIE_SETTINGS, reopen)
-  }, [])
+  }, [consent])
 
   const decide = (choice) => {
     localStorage.setItem(CONSENT_KEY, choice)
@@ -51,8 +49,8 @@ export default function CookieConsent() {
     }
   }
 
-  // Hide while reading storage, or once a choice exists.
-  if (consent === undefined || consent === 'accepted' || consent === 'declined') {
+  // Hide once a choice exists.
+  if (consent === 'accepted' || consent === 'declined') {
     return null
   }
 

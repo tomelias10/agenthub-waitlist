@@ -1,4 +1,5 @@
 import './Hero.css'
+import { trackCta } from '../lib/analytics'
 
 export default function Hero() {
   return (
@@ -29,10 +30,18 @@ export default function Hero() {
         </p>
 
         <div className="hero__actions">
-          <a href="#demo" className="btn btn-primary btn-lg">
+          <a
+            href="#demo"
+            className="btn btn-primary btn-lg"
+            onClick={() => trackCta('hero_free_workflow_audit', { placement: 'hero' })}
+          >
             Get a Free Workflow Audit
           </a>
-          <a href="#how" className="btn btn-ghost btn-lg">
+          <a
+            href="#how"
+            className="btn btn-ghost btn-lg"
+            onClick={() => trackCta('hero_see_how_it_works', { placement: 'hero' })}
+          >
             See how it works
           </a>
         </div>

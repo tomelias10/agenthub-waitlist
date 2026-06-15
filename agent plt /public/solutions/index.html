@@ -24,4 +24,22 @@
   <h2>SEO solution pages</h2><ul class="toc"><li><a href="/ai-agent-for-service-businesses/"><span>→</span> A custom AI agent for service businesses drowning in follow-ups</a></li><li><a href="/ai-agent-for-law-firms/"><span>→</span> An AI operations employee for law firms — not an AI lawyer</a></li><li><a href="/ai-agent-for-real-estate/"><span>→</span> An AI agent that keeps real estate leads warm</a></li><li><a href="/ai-agent-for-clinics/"><span>→</span> A managed AI operations employee for clinics and appointment-heavy businesses</a></li><li><a href="/ai-agent-for-agencies/"><span>→</span> An AI operations employee for busy agencies</a></li><li><a href="/lead-follow-up-automation/"><span>→</span> Lead follow-up automation that does not sound like a generic sequence</a></li><li><a href="/crm-automation-for-small-business/"><span>→</span> CRM automation for small businesses that need cleaner pipelines</a></li><li><a href="/ai-appointment-scheduling-assistant/"><span>→</span> An AI scheduling assistant that handles the back-and-forth</a></li><li><a href="/ai-inbox-triage/"><span>→</span> AI inbox triage for teams that cannot afford missed messages</a></li><li><a href="/ai-automation-agency-israel/"><span>→</span> AI automation agency in Israel for businesses that want implementation, not theory</a></li></ul>
   <section class="card"><h2>Get a practical automation plan</h2><p class="muted">If this workflow is costing time, leads, or consistency, request a free workflow audit. Orynval will map the first AI employee worth building for your business.</p><a class="cta" href="/#demo">Request the audit</a></section>
   <p class="small">© Orynval · Custom AI operations employees</p>
-</main></body></html>
+</main>
+<script>
+(function(){
+  if(navigator.doNotTrack==='1'||navigator.globalPrivacyControl)return;
+  function send(type,payload){
+    try{
+      var body=JSON.stringify(Object.assign({type:type,path:location.pathname,title:document.title,referrer:document.referrer||''},payload||{}));
+      if(navigator.sendBeacon&&navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})))return;
+      fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}).catch(function(){});
+    }catch(e){}
+  }
+  send('pageview',{meta:{section:'static_seo_page'}});
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href*="#demo"],a[href="/"]');
+    if(a)send('cta_click',{name:'static_page_cta',meta:{placement:'static_seo_page',label:(a.textContent||'').trim().slice(0,80)}});
+  },{capture:true});
+})();
+</script>
+</body></html>

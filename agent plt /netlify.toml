@@ -6,9 +6,27 @@
 [functions]
   node_bundler = "esbuild"
 
-# Clean URL for the demo form → monday.com handler
+# Clean URLs for server-side functions
 [[redirects]]
   from = "/api/demo"
   to = "/.netlify/functions/demo"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/track"
+  to = "/.netlify/functions/track"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/analytics-summary"
+  to = "/.netlify/functions/analytics-summary"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/monday-recent"
+  to = "/.netlify/functions/monday-recent"
   status = 200
   force = true
