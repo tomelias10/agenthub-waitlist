@@ -30,3 +30,10 @@
   to = "/.netlify/functions/monday-recent"
   status = 200
   force = true
+
+# Redirect the old netlify.app subdomain to the primary custom domain (SEO)
+[[redirects]]
+  from = "https://orynval.netlify.app/*"
+  to = "https://orynval.com/:splat"
+  status = 301
+  force = true

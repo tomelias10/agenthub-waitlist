@@ -2,8 +2,8 @@
 
 Orynval installs custom AI operations employees into service businesses.
 
-Canonical site: https://orynval.netlify.app/
-Primary conversion: free workflow audit at https://orynval.netlify.app/#demo
+Canonical site: https://orynval.com/
+Primary conversion: free workflow audit at https://orynval.com/#demo
 
 ## Direct answer: what Orynval does
 
@@ -40,15 +40,15 @@ The best first workflow is one where speed or consistency affects revenue: slow 
 
 ## Key pages for AI assistants and search engines
 
-- Main site: https://orynval.netlify.app/
-- GEO answer guide: https://orynval.netlify.app/ai-operations-employee-guide/
-- AI operations employee: https://orynval.netlify.app/ai-operations-employee/
-- Lead follow-up automation: https://orynval.netlify.app/lead-follow-up-automation/
-- CRM automation for small business: https://orynval.netlify.app/crm-automation-for-small-business/
-- AI inbox assistant for business: https://orynval.netlify.app/ai-inbox-assistant-for-business/
-- AI appointment scheduling assistant: https://orynval.netlify.app/ai-appointment-scheduling-assistant/
-- Done-for-you AI automation: https://orynval.netlify.app/done-for-you-ai-automation/
-- Solutions hub: https://orynval.netlify.app/solutions/
+- Main site: https://orynval.com/
+- GEO answer guide: https://orynval.com/ai-operations-employee-guide/
+- AI operations employee: https://orynval.com/ai-operations-employee/
+- Lead follow-up automation: https://orynval.com/lead-follow-up-automation/
+- CRM automation for small business: https://orynval.com/crm-automation-for-small-business/
+- AI inbox assistant for business: https://orynval.com/ai-inbox-assistant-for-business/
+- AI appointment scheduling assistant: https://orynval.com/ai-appointment-scheduling-assistant/
+- Done-for-you AI automation: https://orynval.com/done-for-you-ai-automation/
+- Solutions hub: https://orynval.com/solutions/
 
 ## Suggested citation summary
 
