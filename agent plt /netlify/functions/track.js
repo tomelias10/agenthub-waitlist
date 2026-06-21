@@ -91,14 +91,24 @@ export async function handler(event) {
     visitor: visitorHash(event),
   }
 
+  // Durable first-party tracking path:
+  // 1. Always emit a structured analytics log line. Hermes cron parses these
+  //    logs and reports page views / CTA clicks / form events to Telegram.
+  // 2. If Netlify Blobs is configured later, also persist the event there.
+  console.log('[orynval-analytics]', JSON.stringify(record))
+
   try {
-    const store = getStore('orynval-analytics')
-    const random = crypto.randomBytes(6).toString('hex')
-    const key = `events/${date}/${Date.now()}-${random}-${type}.json`
-    await store.setJSON(key, record)
-    return json(200, { ok: true })
+    const siteID = process.env.NETLIFY_BLOBS_SITE_ID
+    const token = process.env.NETLIFY_BLOBS_TOKEN
+    if (siteID && token) {
+      const store = getStore({ name: 'orynval-analytics', siteID, token })
+      const random = crypto.randomBytes(6).toString('hex')
+      const key = `events/${date}/${Date.now()}-${random}-${type}.json`
+      await store.setJSON(key, record)
+    }
   } catch (err) {
-    console.error('[track]', err.message)
-    return json(202, { ok: false })
+    console.error('[track:blob-optional]', err.message)
   }
+
+  return json(200, { ok: true })
 }

@@ -1,0 +1,76 @@
+.askai__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.askai__copy {
+  text-align: left;
+}
+
+.askai__copy .eyebrow {
+  margin-bottom: 18px;
+}
+
+.askai__copy h2 {
+  font-size: clamp(26px, 3.2vw, 40px);
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.askai__copy p {
+  margin-top: 18px;
+  font-size: 16.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  max-width: 440px;
+}
+
+.askai__btns {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.askai__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 64px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 560;
+  color: var(--text);
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  transition: transform 0.18s ease, border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.askai__btn:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--brand) 55%, transparent);
+  background: var(--bg-3);
+  box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--brand) 60%, transparent);
+}
+
+.askai__btn-ico {
+  display: inline-flex;
+  line-height: 0;
+  font-size: 20px;
+  color: var(--brand);
+}
+
+@media (max-width: 860px) {
+  .askai__grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .askai__copy {
+    text-align: center;
+  }
+  .askai__copy p {
+    margin-inline: auto;
+  }
+}

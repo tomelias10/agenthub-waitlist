@@ -9,6 +9,7 @@ import Console from './components/Console'
 import Problem from './components/Problem'
 import HowItWorks from './components/HowItWorks'
 import Pricing from './components/Pricing'
+import AskAi from './components/AskAi'
 import DemoForm from './components/DemoForm'
 import Footer from './components/Footer'
 import CookieConsent from './components/CookieConsent'
@@ -32,6 +33,7 @@ function App() {
         <Problem />
         <HowItWorks />
         <Pricing />
+        <AskAi />
         <DemoForm />
       </main>
       <Footer />
