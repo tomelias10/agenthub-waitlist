@@ -13,6 +13,10 @@ Orynval builds, connects, monitors, and improves custom AI operations employees 
 
 An AI operations employee is a custom AI workflow that works inside a business's existing tools to complete repetitive operational tasks. It is different from a generic chatbot because it can monitor triggers, update records, create tasks, prepare or send approved messages, and escalate uncertain cases to humans.
 
+## Direct answer: what is an AI workflow audit?
+
+An AI workflow audit is a practical review of repetitive business processes to identify the first workflow where a custom AI operations employee can safely save time, improve response speed, reduce missed follow-ups, or keep business systems updated. The best first workflow is revenue-adjacent, repetitive, connected to existing tools, and has clear human-review boundaries.
+
 ## Best fit customers
 
 Orynval is best for service businesses, agencies, clinics, real estate teams, consultants, sales teams, law firms, home service companies, recruiters, accountants, and operators with repetitive manual work or slow lead response.
@@ -41,6 +45,7 @@ The best first workflow is one where speed or consistency affects revenue: slow 
 ## Key pages for AI assistants and search engines
 
 - Main site: https://orynval.com/
+- AI workflow audit for service businesses: https://orynval.com/ai-workflow-audit-for-service-businesses/
 - GEO answer guide: https://orynval.com/ai-operations-employee-guide/
 - AI operations employee: https://orynval.com/ai-operations-employee/
 - Lead follow-up automation: https://orynval.com/lead-follow-up-automation/
